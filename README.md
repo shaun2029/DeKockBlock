@@ -14,7 +14,7 @@ efficient as possible – consuming only tiny disk and memory footprints.
 
 **Features**
 
-* System size ~ 90 - 130MB
+* System size ~ 60MB
 * Minimal hardware requirements
 * Ultra fast boot
 
