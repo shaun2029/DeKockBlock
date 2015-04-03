@@ -1,0 +1,9 @@
+[Unit]
+# The description should be used to explain what this servicefile is for
+Description=Runs Adaway every day
+
+[Timer]
+OnCalendar=daily
+
+[Install]
+WantedBy=timers.target

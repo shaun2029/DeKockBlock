@@ -1,0 +1,159 @@
+#!/bin/bash
+
+################################################################################
+#      This file is part of DeKockBlock - http://www.dekockblock.tv
+#      Copyright (C) 2009-2014 Stephan Raue (stephan@dekockblock.tv)
+#
+#  DeKockBlock is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 2 of the License, or
+#  (at your option) any later version.
+#
+#  DeKockBlock is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with DeKockBlock.  If not, see <http://www.gnu.org/licenses/>.
+################################################################################
+
+. config/options $1
+
+deps=
+deps_pkg=
+files=
+files_pkg=
+
+case $1 in
+  get)
+    deps="wget"
+    deps_pkg="wget"
+    ;;
+  build)
+    deps="bash bc gcc g++ sed patch touch tar bzip2 gzip perl cp gawk makeinfo gperf cvs zip unzip mkfontscale mkfontdir bdftopcf diff xsltproc java"
+    deps_pkg="bash bc gcc g++ sed patch fileutils tar bzip2 gzip perl coreutils gawk texinfo gperf cvs zip unzip xfonts-utils xfonts-utils xfonts-utils diff xsltproc default-jre"
+    files="/usr/include/stdio.h /usr/include/ncurses.h"
+    files_pkg="libc6-dev libncurses5-dev"
+    if [ -f /etc/redhat-release ]; then
+      deps_pkg="bash bc gcc gcc-c++ sed patch fileutils tar bzip2 gzip perl coreutils gawk texinfo gperf cvs zip unzip xorg-x11-font-utils xorg-x11-font-utils diffutils libxslt java-1.7.0-openjdk"
+      files_pkg="glibc-headers ncurses-devel"
+    fi
+    ;;
+  qemu)
+    if [ ! `which qemu` ]; then
+      echo "Your system doesn't seem to have QEMU installed"
+      exit 1
+    fi
+    ;;
+esac
+
+# project specific dependencies
+if [ -n "$EXTRA_DEPS" ] ; then
+  deps="$deps $EXTRA_DEPS"
+fi
+if [ -n "$EXTRA_DEPS_PKG" ] ; then
+  deps_pkg="$deps_pkg $EXTRA_DEPS_PKG"
+fi
+
+getarg() {
+  eval echo \${$(($1+2))}
+}
+
+i=0
+while dep=`getarg $i $deps` && [ -n "$dep" ]; do
+  [ -z "`which $dep 2>/dev/null`" ] && need="$need $dep" && need_pkg="$need_pkg `getarg $i $deps_pkg`"
+  i=$(($i+1))
+done
+
+i=0
+while file=`getarg $i $files` && [ -n "$file" ]; do
+  [ ! -f $file ] && need="$need $file" && need_pkg="$need_pkg `getarg $i $files_pkg`"
+  i=$(($i+1))
+done
+
+if [ -n "$need" ]; then
+  echo "**** Your system lacks the following tools needed to $1 $DISTRONAME ****"
+  echo $need
+
+  if  [ -f /etc/lsb-release ]; then
+    DISTRO=$(grep DISTRIB_ID /etc/lsb-release | cut -d "=" -f 2)
+  fi
+
+  if [ "$DISTRO" = "Ubuntu" ]; then
+    echo "**** You seem to use a $DISTRO system ****"
+    read -p "would you like to install the needed tools ? (y/n) " ans
+    if ( ! [ -z "`which aptitude 2>/dev/null`" ] && [ "$ans" = "y" ]); then
+      sudo aptitude install $need_pkg
+    elif [ "$ans" = "y" ]; then
+      echo "**** The recommended Package-Manager Aptitude is not installed"
+      read -p "(y) install Aptitude :: (n) use APT " ans
+      if [ "$ans" = "y" ]; then
+        sudo apt-get -y install aptitude
+        sudo aptitude install $need_pkg
+      elif [ "$ans" = "n" ]; then
+        sudo apt-get install $need_pkg
+      else
+        echo "********"
+        exit 1
+      fi
+    else
+      echo "********"
+      exit 1
+    fi
+  elif ( ! [ -z "`which aptitude 2>/dev/null`" ]); then
+   DISTRO="a Debian" 
+   echo "**** You seem to use $DISTRO system ****"
+    read -p "would you like to install the needed tools ? (y/n) " ans
+    if ([ "$ans" = "y" ] && ! [ $(sudo -n uptime 2>&1|grep "load"|wc -l) ]); then
+      sudo aptitude install $need_pkg
+    elif [ "$ans" = "y" ]; then
+      su -c "aptitude install $need_pkg"
+    else
+      echo "********"
+      exit 1
+    fi
+  elif [ -f /etc/mandrake-release -a -n "`which urpmi 2>/dev/null`" ]; then
+    echo "**** You seem to use a mandrake system ****"
+    read -p "would you like to install the needed tools ? (y/n) " ans
+    [ "$ans" = "y" ] && sudo urpmi $need_pkg
+  elif [ -f /etc/gentoo-release -a -n "`which emerge 2>/dev/null`" ]; then
+    echo "**** You seem to use a gentoo system ****"
+    read -p "would you like to install the needed tools ? (y/n) " ans
+    [ "$ans" = "y" ] && sudo emerge -D $need_pkg
+  elif [ -f /etc/fedora-release -a -n "`which yum 2>/dev/null`" ]; then
+    echo "**** You seem to use a fedora system ****"
+    read -p "would you like to install the needed tools ? (y/n) " ans
+    [ "$ans" = "y" ] && sudo yum install $need_pkg
+  elif [ -f /etc/redhat-release -a "`which yum 2>/dev/null`" ]; then
+    echo "**** You seem to use a RedHat or clone (CentOS) system ****"
+    read -p "would you like to install the needed tools ? (y/n) " ans
+    [ "$ans" = "y" ] && sudo yum install $need_pkg
+  else
+    echo "********"
+    exit 1
+  fi
+fi
+
+
+need=""
+need_pkg=""
+
+i=0
+while dep=`getarg $i $deps` && [ -n "$dep" ]; do
+  [ -z "`which $dep 2>/dev/null`" ] && need="$need $dep" && need_pkg="$need_pkg `getarg $i $deps_pkg`"
+  i=$(($i+1))
+done
+
+i=0
+while file=`getarg $i $files` && [ -n "$file" ]; do
+  [ ! -f $file ] && need="$need $file" && need_pkg="$need_pkg `getarg $i $files_pkg`"
+  i=$(($i+1))
+done
+
+if [ -n "$need" ]; then
+  echo "**** The following packages were not installed correctly ****"
+  echo $need_pkg
+  echo "********"
+  exit 1
+fi

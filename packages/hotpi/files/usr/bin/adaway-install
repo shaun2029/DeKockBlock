@@ -1,0 +1,55 @@
+#!/bin/bash
+#settings
+hostsorig="/etc/hosts.original"
+srclst="/etc/hostssources.lst"
+#
+#uninstall
+if [ "$1" == "-u" ] || [ "$1" == "--uninstall" ] ; then
+	echo "[?] Do you really want to uninstall adaway-linux and restore the host-file? [yes]"
+	read REPLY
+	if [ "$REPLY" == "yes" ] ; then
+		echo "[i] restoring /etc/hosts"
+		sudo mv $hostsorig /etc/hosts
+		echo "[!] if you added a cronjob, pleas remove it yourself!."
+	fi
+	echo "[i] finished"
+	exit 0
+fi
+
+#
+echo "Welcome to the install-script for adaway-linux."
+
+#backup hosts-file
+if [ ! -f "$hostsorig" ]; then
+	echo "[i] Backing up the original hosts-file to $hostsorig."
+	sudo cp /etc/hosts "$hostsorig"
+	
+	if [ ! -f "$hostsorig" ] ; then
+		echo "FATAL ERROR: Failed to backup /etc/hosts to $hostsorig"
+		echo "[!] Please backup it manually and save it as $hostsorig."
+		exit 1
+	fi
+fi
+
+#create default hostsources.lst
+if [ ! -f "$srclst" ]; then
+	echo "[i] Creating the $srclst file." 
+	echo "[i] Add add additional urls to this file to enhance adaway functionality."
+	touch "$srclst"
+	echo "http://adaway.org/hosts.txt" >> "$srclst"
+	echo "http://hosts-file.net/ad_servers.asp" >> "$srclst"
+	echo "http://winhelp2002.mvps.org/hosts.txt" >> "$srclst"
+fi
+
+#add cronjob
+echo "[?] Do you want to enable daily automatic updates. [y/n]"
+read REPLY
+if [ "$REPLY" == "y" ] ; then
+	echo "[i] Ok, I'll write in root's cron tab."
+	line="1 12 * * * ""$PWD""adaway-linux"
+	(sudo crontab -u root -l; echo "$line" ) | sudo crontab -u root -
+fi
+
+echo "[i] finished. For uninstall, please run ./install.sh -u"
+exit 0
+

@@ -1,0 +1,22 @@
+[Unit]
+# The description should be used to explain what this servicefile is for
+Description=Adaway blocks adverts using hosts file
+Requires=dnsmasq.service
+After=routing.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/adaway-linux
+# Instruct dnsmasq to reload /etc/hosts 
+ExecStartPost=/bin/killall -HUP dnsmasq
+StandardOutput=null
+StandardError=null
+
+[Install]
+# The target is used by 'servicectl enable <name_of_this_file.mount>' to link
+# this service to a runlevel for starting on boot. usually 'multi-user.target'
+# is ok here.
+WantedBy=multi-user.target
+
+# Important:
+# enabled via ssh with the command 'servicectl enable adaway.service'

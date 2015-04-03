@@ -1,0 +1,20 @@
+[Unit]
+# The description should be used to explain what this servicefile is for
+Description=WiFi hotspot
+Requires=dnsmasq.service
+After=dnsmasq.service
+
+[Service]
+ExecStart=/usr/sbin/hostapd /storage/.config/hotspot.conf
+StandardOutput=null
+StandardError=syslog
+Restart=always
+
+[Install]
+# The target is used by 'servicectl enable <name_of_this_file.mount>' to link
+# this service to a runlevel for starting on boot. usually 'multi-user.target'
+# is ok here.
+WantedBy=multi-user.target
+
+# Important:
+# enabled via ssh with the command 'servicectl enable hotspot.service'

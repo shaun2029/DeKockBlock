@@ -1,0 +1,21 @@
+[Unit]
+# The description should be used to explain what this servicefile is for
+Description=Dnsmasq server
+After=adaway.service
+
+[Service]
+# Required for dnsmasq
+ExecStartPre=/usr/bin/mkdir /var/lib/misc/
+ExecStart=/usr/sbin/dnsmasq -d --conf-file=/storage/.config/dnsmasq.conf
+StandardOutput=syslog
+StandardError=syslog
+Restart=always
+
+[Install]
+# The target is used by 'servicectl enable <name_of_this_file.mount>' to link
+# this service to a runlevel for starting on boot. usually 'multi-user.target'
+# is ok here.
+WantedBy=multi-user.target
+
+# Important:
+# enabled via ssh with the command 'servicectl enable dnsmasq.service'
