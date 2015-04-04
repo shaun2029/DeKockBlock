@@ -37,8 +37,7 @@ configure_target() {
 }
 
 makeinstall_target() {
-    mkdir -p $INSTALL/usr
     mkdir -p $INSTALL/usr/sbin
-    cp src/dnsmasq $INSTALL/usr/sbin/dnsmasq
+    cp src/dnsmasq $INSTALL/usr/sbin/
 }
 

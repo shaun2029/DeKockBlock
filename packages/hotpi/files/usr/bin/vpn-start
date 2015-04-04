@@ -447,6 +447,7 @@ if [ -f "$UPDATERUNFILE" ]; then
     while [ -f "$UPDATERUNFILE" ] &&  [ $TIMENOW -lt $TIMEOUT ]
     do
         sleep 1s
+        TIMENOW=`date +%s`
     done
 fi
 
