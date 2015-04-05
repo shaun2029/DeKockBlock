@@ -17,7 +17,7 @@
 ################################################################################
 
 PKG_NAME="wiringPi"
-PKG_VERSION="2.26"
+PKG_VERSION="2.25"
 PKG_REV="1"
 PKG_PROJECT="RPi"
 PKG_ARCH="arm"
@@ -36,14 +36,19 @@ PKG_AUTORECONF="no"
 pre_configure_target() {
   export LD="$TARGET_LD"
   export LDFLAGS="$TARGET_LDFLAGS"
+  #export CC="$CC"
 }
 
 make_target() {
-    ./build static
+    ./build
 }
 
 makeinstall_target() {
+    mkdir -p $INSTALL/usr/lib
     mkdir -p $INSTALL/usr/bin
+
+    cp wiringPi/libwiringPi.so.$PKG_VERSION $INSTALL/usr/lib/libwiringPi.so
+    cp devLib/libwiringPiDev.so.$PKG_VERSION $INSTALL/usr/lib/libwiringPiDev.so
     cp gpio/gpio $INSTALL/usr/bin/
     cp gpio/pintest $INSTALL/usr/bin/
 }
