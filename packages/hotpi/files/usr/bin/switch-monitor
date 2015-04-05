@@ -1,0 +1,68 @@
+#!/bin/bash.real
+# Copyright Shaun Simpson 2015
+# Licence: GPLv3 or later
+#
+# Reset or halt the system depending on how long gpio pin 9 is pressed.
+# 1 to 4 seconds - reset
+# 5 seconds - halt
+#
+# Green Led 
+# Solid green light - halting
+# Fast flashing green light - rebooting
+
+tpressed=0
+thalt=20
+treset=2
+theartbeat=16
+tbeat=0
+
+gpio mode 9 in
+
+while [ 1 = 1 ]
+do
+    if [ $tbeat -eq $theartbeat ]; then
+        # Turn on green light heart beat to indicate running state
+        echo heartbeat >/sys/class/leds/led0/trigger
+        tbeat=$[tbeat + 1]        
+    elif [ $tbeat -lt $theartbeat ]; then
+        tbeat=$[tbeat + 1]
+    fi
+    
+    if [ `gpio read 9` = 0 ]; then
+        tpressed=$[tpressed + 1]
+    else
+        if [ $tpressed -ge $treset ]; then
+            echo "Switch reset ..."
+           
+            bash.real -c "sleep 3; reboot" &
+            
+            # Fast flashing green light - rebooting
+            while [ 1 = 1 ]
+            do
+                echo 0 >/sys/class/leds/led0/brightness
+                usleep 75000
+                echo 1 >/sys/class/leds/led0/brightness
+                usleep 25000
+            done
+        fi
+
+    	tpressed=0
+    fi
+
+    if [ $tpressed -ge $thalt ]; then
+        echo "Switch halt"
+        bash.real -c "sleep 3; halt" &
+        
+        # Solid green light - halting
+        echo 0 >/sys/class/leds/led0/brightness
+        echo 1 >/sys/class/leds/led0/brightness
+        usleep 2000000
+        echo heartbeat >/sys/class/leds/led0/trigger
+        # Give system time to shutdown else systemd will restart the process
+        sleep 30
+        exit 0
+	exit
+    fi  
+    
+    usleep 250000
+done
