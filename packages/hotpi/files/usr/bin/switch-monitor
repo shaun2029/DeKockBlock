@@ -10,59 +10,119 @@
 # Solid green light - halting
 # Fast flashing green light - rebooting
 
-tpressed=0
-thalt=20
-treset=2
-theartbeat=16
-tbeat=0
+theartbeat=4            # Time in seconds before onboard green LED flashes heart beats
 
+looptime=100000         # Loop time in micro seconds. Lower values increase precision but increase CPU
+
+# Times are measured im multiples of loop time
+tpressed=0              # Time the gpio pin has been low for
+tlastpress=0            # Used for timouts
+thalt=50                # Time before halting
+treset=10               # Time before resetting
+
+# sshd password authentication control.
+# Usually sshd passwords are disabled for security reasons. 
+# When the button is pressed in short bursts password auth in enabled for a period of time.
+sshpass=0               # Accumulated short presses
+sshpass_presses=3       # Number of short presses required to activate sshd password authentication
+sshpass_timeout=0
+sshpass_pid=0		    # PID used to cancel sshd password authentication
+SSHPASSTIME=600         # Time in seconds to allow sshd password authenticated sessions
+
+# GPIO Pin 9 has pullup resistors
+# Set pin9 to input mode
 gpio mode 9 in
+
+# Turn on green light heart beat to indicate running state
+bash.real -c "sleep $theartbeat; echo heartbeat >/sys/class/leds/led0/trigger" &
+
+echo "switch-monitor: Disabled sshd password athentication."
+sed -i -- 's/PasswordAuthentication yes/PasswordAuthentication no/g' \
+    /storage/.cache/services/sshd.conf; killall -HUP sshd;
 
 while [ 1 = 1 ]
 do
-    if [ $tbeat -eq $theartbeat ]; then
-        # Turn on green light heart beat to indicate running state
-        echo heartbeat >/sys/class/leds/led0/trigger
-        tbeat=$[tbeat + 1]        
-    elif [ $tbeat -lt $theartbeat ]; then
-        tbeat=$[tbeat + 1]
-    fi
-    
-    if [ `gpio read 9` = 0 ]; then
+    # Wait for key press
+    gpio wfi 9 falling
+
+    while [ `gpio read 9` = 0 ]
+    do
         tpressed=$[tpressed + 1]
-    else
-        if [ $tpressed -ge $treset ]; then
-            echo "Switch reset ..."
-           
-            bash.real -c "sleep 3; reboot" &
+
+echo "Pressed: $tpressed"
+
+        if [ $tpressed -ge $thalt ]; then
+            echo "Switch halt"
+            bash.real -c "sleep 3; halt" &
             
-            # Fast flashing green light - rebooting
-            while [ 1 = 1 ]
-            do
-                echo 0 >/sys/class/leds/led0/brightness
-                usleep 75000
-                echo 1 >/sys/class/leds/led0/brightness
-                usleep 25000
-            done
+            # Solid green light - halting
+            echo 0 >/sys/class/leds/led0/brightness
+            echo 1 >/sys/class/leds/led0/brightness
+            sleep 3
+            # Switch back to heartbeat else green light stays on after halt
+            echo heartbeat >/sys/class/leds/led0/trigger
+            # Give system time to shut down else systemd will restart the process
+            sleep 30
+            exit 0
+	    exit
+        fi  
+        
+        usleep $looptime
+    done
+    
+    if [ $tpressed -ge $treset ]; then
+        echo "Switch reset ..."
+       
+        bash.real -c "sleep 3; reboot" &
+        
+        # Fast flashing green light - rebooting
+        while [ 1 = 1 ]
+        do
+            echo 0 >/sys/class/leds/led0/brightness
+            usleep 75000
+            echo 1 >/sys/class/leds/led0/brightness
+            usleep 25000
+        done
+    else 
+        NOWTIME=`date +%s`
+        # Test if the buttons have been pressed in quick succession
+        if [ $sshpass_timeout -lt $NOWTIME ]; then
+            sshpass=1
+        else
+            sshpass=$[sshpass + 1]
         fi
 
-    	tpressed=0
+        sshpass_timeout=$[NOWTIME + 2]
+
+        # If there have been enough quick presses activate ssh password authentication
+        if [ $sshpass -ge $sshpass_presses ]; then
+            echo "sshd - passwords enabled"
+            sshpass=0
+
+            # Kill process that will disable passwords if active
+            if [ $sshpass_pid -gt 0 ]; then
+                kill -9 $sshpass_pid > /dev/null 2> /dev/null
+            fi
+
+            # Enable ssh passwords
+            sed -i -- 's/PasswordAuthentication no/PasswordAuthentication yes/g' /storage/.cache/services/sshd.conf
+
+            # Reload sshd configuration
+            systemctl reload sshd.service
+            
+            # Indicate ssh passwords are active
+            echo timer >/sys/class/leds/led0/trigger
+
+            (sleep $SSHPASSTIME; sed -i -- 's/PasswordAuthentication yes/PasswordAuthentication no/g' \
+                /storage/.cache/services/sshd.conf; killall -HUP sshd; \
+                echo heartbeat >/sys/class/leds/led0/trigger; \
+                echo 'sshd - passwords disabled') &
+            
+            # Store PID in case we want to cancel this command later
+            sshpass_pid=$!
+        fi
     fi
 
-    if [ $tpressed -ge $thalt ]; then
-        echo "Switch halt"
-        bash.real -c "sleep 3; halt" &
-        
-        # Solid green light - halting
-        echo 0 >/sys/class/leds/led0/brightness
-        echo 1 >/sys/class/leds/led0/brightness
-        usleep 2000000
-        echo heartbeat >/sys/class/leds/led0/trigger
-        # Give system time to shutdown else systemd will restart the process
-        sleep 30
-        exit 0
-	exit
-    fi  
-    
-    usleep 250000
+    tpressed=0   
 done
+
