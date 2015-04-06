@@ -49,8 +49,6 @@ do
     do
         tpressed=$[tpressed + 1]
 
-echo "Pressed: $tpressed"
-
         if [ $tpressed -ge $thalt ]; then
             echo "Switch halt"
             bash.real -c "sleep 3; halt" &
@@ -96,30 +94,34 @@ echo "Pressed: $tpressed"
 
         # If there have been enough quick presses activate ssh password authentication
         if [ $sshpass -ge $sshpass_presses ]; then
-            echo "sshd - passwords enabled"
-            sshpass=0
+            if [ -f "/storage/.cache/services/sshd.conf" ]; then           
+                echo "sshd - passwords enabled"
+                sshpass=0
 
-            # Kill process that will disable passwords if active
-            if [ $sshpass_pid -gt 0 ]; then
-                kill -9 $sshpass_pid > /dev/null 2> /dev/null
+                # Kill process that will disable passwords if active
+                if [ $sshpass_pid -gt 0 ]; then
+                    kill -9 $sshpass_pid > /dev/null 2> /dev/null
+                fi
+
+                # Enable ssh passwords
+                sed -i -- 's/PasswordAuthentication no/PasswordAuthentication yes/g' /storage/.cache/services/sshd.conf
+
+                # Reload sshd configuration
+                systemctl reload sshd.service
+                
+                # Indicate ssh passwords are active
+                echo timer >/sys/class/leds/led0/trigger
+
+                (sleep $SSHPASSTIME; sed -i -- 's/PasswordAuthentication yes/PasswordAuthentication no/g' \
+                    /storage/.cache/services/sshd.conf; killall -HUP sshd; \
+                    echo heartbeat >/sys/class/leds/led0/trigger; \
+                    echo 'sshd - passwords disabled') &
+                
+                # Store PID in case we want to cancel this command later
+                sshpass_pid=$!
+            else 
+                echo "ERROR: OpenSSH server config not found!"
             fi
-
-            # Enable ssh passwords
-            sed -i -- 's/PasswordAuthentication no/PasswordAuthentication yes/g' /storage/.cache/services/sshd.conf
-
-            # Reload sshd configuration
-            systemctl reload sshd.service
-            
-            # Indicate ssh passwords are active
-            echo timer >/sys/class/leds/led0/trigger
-
-            (sleep $SSHPASSTIME; sed -i -- 's/PasswordAuthentication yes/PasswordAuthentication no/g' \
-                /storage/.cache/services/sshd.conf; killall -HUP sshd; \
-                echo heartbeat >/sys/class/leds/led0/trigger; \
-                echo 'sshd - passwords disabled') &
-            
-            # Store PID in case we want to cancel this command later
-            sshpass_pid=$!
         fi
     fi
 
