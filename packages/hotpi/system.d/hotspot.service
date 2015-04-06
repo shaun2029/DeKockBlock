@@ -9,6 +9,7 @@ ExecStart=/usr/sbin/hostapd /storage/.config/hotspot.conf
 StandardOutput=null
 StandardError=syslog
 Restart=always
+TimeoutStopSec=5s
 
 [Install]
 # The target is used by 'servicectl enable <name_of_this_file.mount>' to link
