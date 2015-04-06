@@ -1,8 +1,10 @@
 [Unit]
 Description=OpenSSH server daemon
-ConditionKernelCommandLine=|ssh
-ConditionPathExists=|/storage/.cache/services/sshd.conf
-After=network.target
+After=network.target sshd-defaults.service
+Requires=sshd-defaults.service
+
+ConditionPathExists=/storage/.cache/services/sshd.conf
+
 
 [Service]
 ExecStartPre=/usr/bin/ssh-keygen -A
