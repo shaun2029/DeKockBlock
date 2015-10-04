@@ -2,7 +2,7 @@ Betreff: [RFC] hid/sony: add autorepeat for PS3 remotes
 Von: David Dillow <dave@thedillows.org>
 Datum: 28.06.2013 04:28
 An: linux-input@vger.kernel.org
-Kopie (CC): Stephan Raue <stephan@dekockblock.tv>
+Kopie (CC): Stephan Raue <stephan@openelec.tv>
 
 Some applications using the PS3 remote would like to have autorepeat
 from the device. Use the input subsystem's software emulation to provide

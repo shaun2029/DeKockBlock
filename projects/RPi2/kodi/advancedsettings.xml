@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<advancedsettings>
+  <video>
+    <timeseekforward>30</timeseekforward>
+    <timeseekbackward>-10</timeseekbackward>
+    <ignoresecondsatstart>10</ignoresecondsatstart> <!-- Number of seconds to ignore at video start after which a resume point is created -->
+    <ignorepercentatend>8</ignorepercentatend> 
+    <playcountminimumpercent>90</playcountminimumpercent>
+    <busydialogdelayms>750</busydialogdelayms>
+  </video>
+
+  <gui>
+      <algorithmdirtyregions>3</algorithmdirtyregions>
+      <nofliptimeout>0</nofliptimeout>
+  </gui>
+
+  <lookandfeel>
+      <enablerssfeeds>false</enablerssfeeds>
+  </lookandfeel>
+
+  <bginfoloadermaxthreads>4</bginfoloadermaxthreads>
+
+  <showexitbutton>false</showexitbutton>
+
+  <fanartres>640</fanartres>
+  <imageres>480</imageres>
+
+  <samba>
+    <clienttimeout>30</clienttimeout>
+  </samba>
+
+  <network>
+    <buffermode>0</buffermode>
+    <readbufferfactor>2</readbufferfactor>
+    <cachemembuffersize>33554432</cachemembuffersize>
+  </network>
+</advancedsettings>
