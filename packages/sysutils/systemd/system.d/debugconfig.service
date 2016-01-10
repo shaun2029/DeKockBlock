@@ -3,11 +3,11 @@ Description=Setup debug config
 DefaultDependencies=no
 After=systemd-tmpfiles-setup.service
 ConditionKernelCommandLine=|debugging
-ConditionPathExists=|/storage/.cache/debug.dekockblock
+ConditionPathExists=|/storage/.cache/debug.openelec
 
 [Service]
 Type=oneshot
-ExecStart=/bin/sh -c 'cp /usr/share/debugconf/*.conf /run/dekockblock/debug'
+ExecStart=/bin/sh -c 'cp /usr/share/debugconf/*.conf /run/openelec/debug'
 RemainAfterExit=yes
 
 [Install]

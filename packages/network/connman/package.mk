@@ -1,19 +1,19 @@
 ################################################################################
-#      This file is part of DeKockBlock - http://www.dekockblock.tv
-#      Copyright (C) 2009-2014 Stephan Raue (stephan@dekockblock.tv)
+#      This file is part of OpenELEC - http://www.openelec.tv
+#      Copyright (C) 2009-2014 Stephan Raue (stephan@openelec.tv)
 #
-#  DeKockBlock is free software: you can redistribute it and/or modify
+#  OpenELEC is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation, either version 2 of the License, or
 #  (at your option) any later version.
 #
-#  DeKockBlock is distributed in the hope that it will be useful,
+#  OpenELEC is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU General Public License for more details.
 #
 #  You should have received a copy of the GNU General Public License
-#  along with DeKockBlock.  If not, see <http://www.gnu.org/licenses/>.
+#  along with OpenELEC.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
 PKG_NAME="connman"
@@ -33,29 +33,15 @@ PKG_LONGDESC="The ConnMan project provides a daemon for managing internet connec
 PKG_IS_ADDON="no"
 PKG_AUTORECONF="yes"
 
-if [ "$PPTP_SUPPORT" = yes ]; then
-  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET ppp pptp"
-  CONNMAN_PPTP="--enable-pptp PPPD=/usr/sbin/pppd PPTP=/usr/sbin/pptp"
-else
-  CONNMAN_PPTP="--disable-pptp"
-fi
-
-if [ "$OPENVPN_SUPPORT" = yes ]; then
-  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET openvpn"
-  CONNMAN_OPENVPN="--enable-openvpn --with-openvpn=/usr/sbin/openvpn"
-else
-  CONNMAN_OPENVPN="--disable-openvpn"
-fi
-
 PKG_CONFIGURE_OPTS_TARGET="WPASUPPLICANT=/usr/bin/wpa_supplicant \
                            --disable-gtk-doc \
                            --disable-debug \
                            --disable-hh2serial-gps \
                            --disable-openconnect \
-                           $CONNMAN_OPENVPN \
+                           --disable-openvpn \
                            --disable-vpnc \
                            --disable-l2tp \
-                           $CONNMAN_PPTP \
+                           --disable-pptp \
                            --disable-iospm \
                            --disable-tist \
                            --disable-session-policy-local \
@@ -82,7 +68,6 @@ PKG_CONFIGURE_OPTS_TARGET="WPASUPPLICANT=/usr/bin/wpa_supplicant \
 
 
 PKG_MAKE_OPTS_TARGET="storagedir=/storage/.cache/connman \
-                      vpn_storagedir=/storage/.config/vpn-config \
                       statedir=/run/connman"
 
 post_makeinstall_target() {
@@ -107,10 +92,14 @@ post_makeinstall_target() {
         -e "s|^# PreferredTechnologies.*|PreferredTechnologies = ethernet,wifi,cellular|g" \
         -e "s|^# TetheringTechnologies.*|TetheringTechnologies = wifi|g" \
         -e "s|^# AllowHostnameUpdates.*|AllowHostnameUpdates = false|g" \
-        -e "s|^# PersistentTetheringMode.*|PersistentTetheringMode = true|g"
+        -e "s|^# PersistentTetheringMode.*|PersistentTetheringMode = true|g" \
+        -e "s|^# NetworkInterfaceBlacklist = vmnet,vboxnet,virbr,ifb|NetworkInterfaceBlacklist = vmnet,vboxnet,virbr,ifb,docker,veth|g"
 
   mkdir -p $INSTALL/usr/config
     cp $PKG_DIR/config/hosts.conf $INSTALL/usr/config
+
+  mkdir -p $INSTALL/usr/share/connman/
+    cp $PKG_DIR/config/settings $INSTALL/usr/share/connman/
 }
 
 post_install() {

@@ -1,7 +1,7 @@
 [Unit]
 # The description should be used to explain what this servicefile is for
 Description=Dnsmasq server
-After=adaway.service
+After=routing.service
 
 [Service]
 # Required for dnsmasq

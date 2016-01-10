@@ -1,23 +1,23 @@
 ################################################################################
-#      This file is part of DeKockBlock - http://www.dekockblock.tv
-#      Copyright (C) 2009-2014 Stephan Raue (stephan@dekockblock.tv)
+#      This file is part of OpenELEC - http://www.openelec.tv
+#      Copyright (C) 2009-2014 Stephan Raue (stephan@openelec.tv)
 #
-#  DeKockBlock is free software: you can redistribute it and/or modify
+#  OpenELEC is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation, either version 2 of the License, or
 #  (at your option) any later version.
 #
-#  DeKockBlock is distributed in the hope that it will be useful,
+#  OpenELEC is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU General Public License for more details.
 #
 #  You should have received a copy of the GNU General Public License
-#  along with DeKockBlock.  If not, see <http://www.gnu.org/licenses/>.
+#  along with OpenELEC.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
 PKG_NAME="libressl"
-PKG_VERSION="2.1.1"
+PKG_VERSION="2.1.8"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="BSD"
@@ -36,9 +36,10 @@ post_makeinstall_target() {
 # ca-certification: provides a tool to download and create ca-bundle.crt
 # download url: http://curl.haxx.se
 # create new cert: perl ./mk-ca-bundle.pl
-  # TODO OE6.0 install in /etc/ssl and rebuild curl
   mkdir -p $INSTALL/$SSL_CERTIFICATES
     cp $PKG_DIR/cert/ca-bundle.crt $INSTALL/$SSL_CERTIFICATES/cacert.pem
-  mkdir -p $INSTALL/etc/ssl
+  # backwards comatibility
+  mkdir -p $INSTALL/etc/pki/tls
+  ln -sf $SSL_CERTIFICATES/cacert.pem $INSTALL/etc/pki/tls/cacert.pem
   ln -sf $SSL_CERTIFICATES/cacert.pem $INSTALL/etc/ssl/cert.pem
 }

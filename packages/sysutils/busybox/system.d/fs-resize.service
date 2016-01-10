@@ -4,7 +4,7 @@ DefaultDependencies=no
 
 [Service]
 Type=idle
-ExecStart=/usr/lib/dekockblock/fs-resize
+ExecStart=/usr/lib/openelec/fs-resize
 StandardInput=tty-force
 StandardOutput=inherit
 StandardError=inherit

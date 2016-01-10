@@ -1,28 +1,28 @@
 ################################################################################
-#      This file is part of DeKockBlock - http://www.dekockblock.tv
-#      Copyright (C) 2009-2014 Stephan Raue (stephan@dekockblock.tv)
+#      This file is part of OpenELEC - http://www.openelec.tv
+#      Copyright (C) 2009-2014 Stephan Raue (stephan@openelec.tv)
 #
-#  DeKockBlock is free software: you can redistribute it and/or modify
+#  OpenELEC is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation, either version 2 of the License, or
 #  (at your option) any later version.
 #
-#  DeKockBlock is distributed in the hope that it will be useful,
+#  OpenELEC is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU General Public License for more details.
 #
 #  You should have received a copy of the GNU General Public License
-#  along with DeKockBlock.  If not, see <http://www.gnu.org/licenses/>.
+#  along with OpenELEC.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
 # Downloadlocation:
 # http://www.broadcom.com/support/802.11/linux_sta.php
 
 PKG_NAME="bcm_sta"
-PKG_VERSION="6.30.223.248"
+PKG_VERSION="6.30.223.271"
 PKG_REV="1"
-PKG_ARCH="i386 x86_64"
+PKG_ARCH="x86_64"
 PKG_LICENSE="nonfree"
 PKG_SITE="http://www.broadcom.com/"
 PKG_URL="$DISTRO_SRC/$PKG_NAME-$PKG_VERSION.tar.xz"
@@ -36,14 +36,8 @@ PKG_LONGDESC="These packages contain Broadcom's IEEE 802.11a/b/g/n hybrid LinuxÂ
 PKG_IS_ADDON="no"
 PKG_AUTORECONF="no"
 
-if [ "$TARGET_ARCH" = "i386" ]; then
-  DRIVER_ARCH="x86-32"
-elif [ "$TARGET_ARCH" = "x86_64" ]; then
-  DRIVER_ARCH="x86-64"
-fi
-
 make_target() {
-  cd $DRIVER_ARCH
+  cd x86-64
     KBUILD_NOPEDANTIC=1 make V=1 CC=$CC -C $(kernel_path) M=`pwd` BINARCH=$TARGET_ARCH
 }
 

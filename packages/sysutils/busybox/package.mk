@@ -1,23 +1,23 @@
 ################################################################################
-#      This file is part of DeKockBlock - http://www.dekockblock.tv
-#      Copyright (C) 2009-2014 Stephan Raue (stephan@dekockblock.tv)
+#      This file is part of OpenELEC - http://www.openelec.tv
+#      Copyright (C) 2009-2014 Stephan Raue (stephan@openelec.tv)
 #
-#  DeKockBlock is free software: you can redistribute it and/or modify
+#  OpenELEC is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation, either version 2 of the License, or
 #  (at your option) any later version.
 #
-#  DeKockBlock is distributed in the hope that it will be useful,
+#  OpenELEC is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU General Public License for more details.
 #
 #  You should have received a copy of the GNU General Public License
-#  along with DeKockBlock.  If not, see <http://www.gnu.org/licenses/>.
+#  along with OpenELEC.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
 PKG_NAME="busybox"
-PKG_VERSION="1.22.1"
+PKG_VERSION="1.24.1"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
@@ -122,6 +122,9 @@ configure_target() {
     CFLAGS=`echo $CFLAGS | sed -e "s|-Ofast|-Os|"`
     CFLAGS=`echo $CFLAGS | sed -e "s|-O.|-Os|"`
 
+    # busybox fails to build with GOLD support enabled with binutils-2.25
+    strip_gold
+
     LDFLAGS="$LDFLAGS -fwhole-program"
 
     make oldconfig
@@ -137,6 +140,9 @@ configure_init() {
     # optimize for size
     CFLAGS=`echo $CFLAGS | sed -e "s|-Ofast|-Os|"`
     CFLAGS=`echo $CFLAGS | sed -e "s|-O.|-Os|"`
+
+    # busybox fails to build with GOLD support enabled with binutils-2.25
+    strip_gold
 
     LDFLAGS="$LDFLAGS -fwhole-program"
 
@@ -159,8 +165,8 @@ makeinstall_target() {
     cp $PKG_DIR/scripts/pastebinit $INSTALL/usr/bin/
     ln -sf pastebinit $INSTALL/usr/bin/paste
 
-  mkdir -p $INSTALL/usr/lib/dekockblock
-    cp $PKG_DIR/scripts/fs-resize $INSTALL/usr/lib/dekockblock
+  mkdir -p $INSTALL/usr/lib/openelec
+    cp $PKG_DIR/scripts/fs-resize $INSTALL/usr/lib/openelec
 
   mkdir -p $INSTALL/etc
     cp $PKG_DIR/config/profile $INSTALL/etc
@@ -238,6 +244,11 @@ makeinstall_init() {
   mkdir -p $INSTALL/etc
     touch $INSTALL/etc/fstab
     ln -sf /proc/self/mounts $INSTALL/etc/mtab
+
+  if [ -f $PROJECT_DIR/$PROJECT/initramfs/platform_init ]; then
+    cp $PROJECT_DIR/$PROJECT/initramfs/platform_init $INSTALL
+    chmod 755 $INSTALL/platform_init
+  fi
 
   cp $PKG_DIR/scripts/init $INSTALL
   chmod 755 $INSTALL/init

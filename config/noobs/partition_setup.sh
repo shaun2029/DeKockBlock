@@ -1,7 +1,7 @@
 #!/bin/sh -x
 ################################################################################
-#      This file is part of DeKockBlock - http://www.dekockblock.tv
-#      Copyright (C) 2009-2013 Stephan Raue (stephan@dekockblock.tv)
+#      This file is part of OpenELEC - http://www.openelec.tv
+#      Copyright (C) 2009-2013 Stephan Raue (stephan@openelec.tv)
 #
 #  This Program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -14,12 +14,12 @@
 #  GNU General Public License for more details.
 #
 #  You should have received a copy of the GNU General Public License
-#  along with DeKockBlock.net; see the file COPYING.  If not, write to
+#  along with OpenELEC.tv; see the file COPYING.  If not, write to
 #  the Free Software Foundation, 51 Franklin Street, Suite 500, Boston, MA 02110, USA.
 #  http://www.gnu.org/copyleft/gpl.html
 ################################################################################
 
-MOUNTPOINT="/tmp/DeKockBlock-System"
+MOUNTPOINT="/tmp/OpenELEC-System"
 
 md5sumCheck() {
   ( cd $MOUNTPOINT
@@ -28,10 +28,10 @@ md5sumCheck() {
     if [ "$?" = "1" ]; then
       echo "######################################################"
       echo "#                                                    #"
-      echo "# DeKockBlock failed md5 check - Installation will quit #"
+      echo "# OpenELEC failed md5 check - Installation will quit #"
       echo "#                                                    #"
       echo "#    Your original download was probably corrupt.    #"
-      echo "#  Please visit www.dekockblock.tv and get another copy #"
+      echo "#  Please visit www.openelec.tv and get another copy #"
       echo "#                                                    #"
       echo "######################################################"
       exit 1
@@ -40,7 +40,7 @@ md5sumCheck() {
   )
 }
 
-if [ -z $part1 -o -z $part2 -o -z $id1 -o -z $id2]; then
+if [ -z $part1 -o -z $part2 -o -z $id1 -o -z $id2 ]; then
   echo "error: part1, part2, id1 or id2 not specified"
   echo "actual values:"
   echo "part1:" $part1

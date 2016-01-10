@@ -4,12 +4,12 @@
        version="@ADDON_VERSION@"
        provider-name="@PROVIDER_NAME@">
   <requires>
-    <import addon="os.dekockblock.tv" version="@OS_VERSION@"/>
+    <import addon="os.openelec.tv" version="@OS_VERSION@"/>
     <import addon="xbmc.python" version="2.1.0"/>
 @REQUIRES@
   </requires>
   <extension point="xbmc.python.script" library="default.py">
-    <provides>executable</provides>
+    <provides>@PKG_ADDON_PROVIDES@</provides>
   </extension>
   <extension point="xbmc.addon.metadata">
     <summary>@PKG_SHORTDESC@</summary>

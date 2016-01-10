@@ -1,10 +1,10 @@
-# DeKockBlock
+# OpenELEC
 
 Raspberry Pi router implimenting a firewall, port forwarding, advert blocking,vpn and hotspot.
 
 Based on OpenELEC.tv with HotPi additions including VPN WiFi Hotspot.
 
-# DeKockBlock - Open Embedded Linux Router
+# OpenELEC - Open Embedded Linux Router
 
 The base system has been designed and built from the ground up to be as 
 efficient as possible – consuming only tiny disk and memory footprints.

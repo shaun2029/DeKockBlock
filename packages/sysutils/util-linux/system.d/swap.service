@@ -13,8 +13,8 @@ ConditionKernelCommandLine=!installer
 [Service]
 Environment=HOME=/storage
 Type=oneshot
-ExecStartPre=/usr/lib/dekockblock/mount-swap create
-ExecStart=/usr/lib/dekockblock/mount-swap mount
+ExecStartPre=/usr/lib/openelec/mount-swap create
+ExecStart=/usr/lib/openelec/mount-swap mount
 RemainAfterExit=yes
 
 [Install]
