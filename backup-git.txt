@@ -1,0 +1,1 @@
+tar cJf /media/Storage/RaspberryPi/OpenELEC/OpenELEC.git.2015-02-22.tar.xz --exclude='./build.OpenELEC-*' --exclude='./sources' --exclude='./target' ./
