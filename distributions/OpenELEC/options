@@ -1,8 +1,8 @@
 # Name of the Distro to build (full name, without special characters)
-  DISTRONAME="OpenELEC"
+  DISTRONAME="DeKockBlock"
 
 # short project description
-  DESCRIPTION="OpenELEC is a fast and user-friendly Kodi Entertainment Center distribution."
+  DESCRIPTION="DeKockBlock Raspberry Pi router implimenting a firewall, port forwarding, advert blocking,vpn and hotspot."
 
 # Welcome Message for e.g. SSH Server (up to 5 Lines)
   GREETING0="##############################################"
@@ -12,7 +12,7 @@
   GREETING4=""
 
 # Root password to integrate in the target system
-  ROOT_PASSWORD="openelec"
+  ROOT_PASSWORD="dekockblock"
 
 # Install glibc locales to the build (yes / no)
   GLIBC_LOCALES="yes"

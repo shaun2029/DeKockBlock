@@ -45,4 +45,5 @@ makeinstall_target() {
 
     cp -PRv $PKG_DIR/scripts/update.sh $INSTALL/usr/share/bootloader
     cp -PRv $PKG_DIR/files/3rdparty/bootloader/config.txt $INSTALL/usr/share/bootloader
+    cp -PRv $PKG_DIR/files/3rdparty/bootloader/cmdline.txt $INSTALL/usr/share/bootloader
 }
