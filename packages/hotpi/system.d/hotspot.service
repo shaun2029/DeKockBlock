@@ -7,7 +7,7 @@ After=dnsmasq.service
 [Service]
 Type=idle
 ExecStartPre=sleep 10
-ExecStart=/usr/sbin/hostapd /storage/.config/hotspot.conf
+ExecStart=/usr/sbin/hostapd -d /storage/.config/hotspot.conf
 StandardOutput=null
 StandardError=syslog
 Restart=always

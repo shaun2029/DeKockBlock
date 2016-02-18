@@ -16,44 +16,37 @@
 #  along with OpenELEC.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-PKG_NAME="RTL8188EU"
-PKG_VERSION="3091828"
+PKG_NAME="RTL8188-hostapd"
+PKG_VERSION="2.0"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
 # realtek: PKG_SITE="http://www.realtek.com.tw/downloads/downloadsView.aspx?Langid=1&PFid=48&Level=5&Conn=4&ProdID=274&DownTypeID=3&GetDown=false&Downloads=true"
-PKG_SITE="https://github.com/lwfinger/rtl8188eu"
-PKG_URL="$DISTRO_SRC/$PKG_NAME-$PKG_VERSION.tar.xz"
+PKG_SITE="https://github.com/shaun2029/RTL8188-hostapd"
+PKG_URL="https://www.immutablefix.co.uk/OpenELEC-HotPi/$PKG_NAME-$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain linux"
-PKG_NEED_UNPACK="$LINUX_DEPENDS"
 PKG_PRIORITY="optional"
-PKG_SECTION="driver"
-PKG_SHORTDESC="Realtek RTL81xxEU Linux 3.x driver"
-PKG_LONGDESC="Realtek RTL81xxEU Linux 3.x driver"
+PKG_SECTION="network"
+PKG_SHORTDESC="Hostapd (Host access point daemon)"
+PKG_LONGDESC="Hostapd (Host access point daemon) is a user space software access point capable of turning normal network interface cards into access points and authentication servers."
 
 PKG_IS_ADDON="no"
 PKG_AUTORECONF="no"
 
 pre_make_target() {
   unset LDFLAGS
-  cp $ROOT/$PKG_BUILD/hostapd-0.8/hostapd/defconfig $ROOT/$PKG_BUILD/hostapd-0.8/hostapd/.config
+#  cp $ROOT/$PKG_BUILD/RTL8188-hostapd-$PKG_VERSION/hostapd/defconfig $ROOT/$PKG_BUILD/hostapd-0.8/hostapd/.config
 }
 
 make_target() {
-  make V=1 \
-       ARCH=$TARGET_ARCH \
-       KSRC=$(kernel_path) \
-       CROSS_COMPILE=$TARGET_PREFIX \
-       CONFIG_POWER_SAVING=n
+  cd $ROOT/$PKG_BUILD/hostapd
   
-#  make -C hostapd-0.8/hostapd
+  make
 }
 
 makeinstall_target() {
-  mkdir -p $INSTALL/lib/modules/$(get_module_dir)/$PKG_NAME
-    cp *.ko $INSTALL/lib/modules/$(get_module_dir)/$PKG_NAME
-    
-#  mkdir -p $INSTALL/usr/sbin  
-#    cp hostapd-0.8/hostapd/hostapd $INSTALL/usr/sbin/
-#    cp hostapd-0.8/hostapd/hostapd_cli $INSTALL/usr/sbin/
+   
+  mkdir -p $INSTALL/usr/sbin  
+    cp $ROOT/$PKG_BUILD/hostapd/hostapd $INSTALL/usr/sbin/
+    cp $ROOT/$PKG_BUILD/hostapd/hostapd_cli $INSTALL/usr/sbin/
 }
