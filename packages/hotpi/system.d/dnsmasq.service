@@ -5,7 +5,7 @@ After=routing.service
 
 [Service]
 # Required for dnsmasq
-ExecStartPre=/usr/bin/mkdir /var/lib/misc/
+ExecStartPre=/usr/bin/mkdir -p /var/lib/misc/
 ExecStart=/usr/sbin/dnsmasq -d --conf-file=/storage/.config/dnsmasq.conf
 ExecReload=/bin/kill -HUP $MAINPID
 StandardOutput=syslog
