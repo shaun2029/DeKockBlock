@@ -1,0 +1,11 @@
+[Unit]
+Description=Reset WiFi hotspot - driver seems to crash ever 6 days so restart it every day https://github.com/jekader/hostapd-rtl/issues/5
+Requires=hotspot.service
+
+[Service]
+Type=simple
+ExecStart=/bin/bash -c "/usr/bin/hotspot-restart &"
+
+[Install]
+WantedBy=multi-user.target
+

@@ -6,12 +6,14 @@ After=dnsmasq.service
 
 [Service]
 Type=idle
-ExecStartPre=sleep 10
+
+ExecStartPre=-/bin/sleep 10s
 ExecStart=/usr/sbin/hostapd -d /storage/.config/hotspot.conf
+
 StandardOutput=null
 StandardError=syslog
 Restart=always
-TimeoutStopSec=5s
+TimeoutStopSec=10s
 
 [Install]
 # The target is used by 'servicectl enable <name_of_this_file.mount>' to link

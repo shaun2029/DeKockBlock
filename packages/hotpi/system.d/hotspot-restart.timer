@@ -1,0 +1,9 @@
+[Unit]
+Description=Reset WiFi hotspot - driver seems to crash ever 6 days so restart it every day https://github.com/jekader/hostapd-rtl/issues/5
+
+[Timer]
+OnCalendar=*-*-* *:00:00
+Unit=hotspot-restart.service
+
+[Install]
+WantedBy=multi-user.target

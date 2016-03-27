@@ -1,0 +1,11 @@
+#!/bin/bash
+
+brctl delif br0 wlan0
+systemctl stop hotspot.service
+ifconfig wlan0 down
+rmmod 8192eu
+modprobe 8192eu
+ifconfig wlan0 up
+systemctl start hotspot.service
+brctl addif br0 wlan0
+
