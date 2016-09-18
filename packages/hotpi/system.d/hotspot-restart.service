@@ -4,7 +4,7 @@ Requires=hotspot.service
 
 [Service]
 Type=simple
-ExecStart=/bin/bash -c "/usr/bin/hotspot-restart &"
+ExecStart=/bin/bash.real -c "/usr/bin/hotspot-restart"
 
 [Install]
 WantedBy=multi-user.target

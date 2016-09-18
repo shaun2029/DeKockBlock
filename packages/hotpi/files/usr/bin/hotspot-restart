@@ -1,11 +1,14 @@
-#!/bin/bash
-
-brctl delif br0 wlan0
-systemctl stop hotspot.service
-ifconfig wlan0 down
-rmmod 8192eu
-modprobe 8192eu
-ifconfig wlan0 up
-systemctl start hotspot.service
-brctl addif br0 wlan0
+#!/bin/bash.real
+if [ -f "/storage/hotspot-restart" ]; then
+    /storage/hotspot-restart
+else    
+    systemctl stop hotspot.service
+    brctl delif br0 wlan0
+    ifconfig wlan0 down
+    rmmod 8192eu
+    modprobe 8192eu
+    ifconfig wlan0 up
+    brctl addif br0 wlan0
+    systemctl start hotspot.service
+fi
 
