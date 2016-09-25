@@ -6,7 +6,6 @@ After=dnsmasq.service
 
 [Service]
 Type=idle
-
 ExecStartPre=-/bin/sleep 10s
 ExecStart=/usr/sbin/hostapd -d /storage/.config/hotspot.conf
 
