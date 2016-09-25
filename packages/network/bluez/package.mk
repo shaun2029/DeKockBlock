@@ -1,6 +1,6 @@
 ################################################################################
 #      This file is part of OpenELEC - http://www.openelec.tv
-#      Copyright (C) 2009-2014 Stephan Raue (stephan@openelec.tv)
+#      Copyright (C) 2009-2016 Stephan Raue (stephan@openelec.tv)
 #
 #  OpenELEC is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -17,13 +17,13 @@
 ################################################################################
 
 PKG_NAME="bluez"
-PKG_VERSION="5.36"
+PKG_VERSION="5.39"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.bluez.org/"
 PKG_URL="http://www.kernel.org/pub/linux/bluetooth/$PKG_NAME-$PKG_VERSION.tar.xz"
-PKG_DEPENDS_TARGET="toolchain dbus glib readline systemd"
+PKG_DEPENDS_TARGET="toolchain dbus glib readline netbsd-curses systemd"
 PKG_PRIORITY="optional"
 PKG_SECTION="network"
 PKG_SHORTDESC="bluez: Bluetooth Tools and System Daemons for Linux."
@@ -64,6 +64,8 @@ pre_configure_target() {
 # bluez fails to build in subdirs
   cd $ROOT/$PKG_BUILD
     rm -rf .$TARGET_NAME
+
+  export LIBS="-lncurses -lterminfo"
 }
 
 post_makeinstall_target() {

@@ -1,6 +1,6 @@
 ################################################################################
 #      This file is part of OpenELEC - http://www.openelec.tv
-#      Copyright (C) 2009-2014 Stephan Raue (stephan@openelec.tv)
+#      Copyright (C) 2009-2016 Stephan Raue (stephan@openelec.tv)
 #
 #  OpenELEC is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@ PKG_LICENSE="LGPL"
 PKG_SITE="http://www.mysql.com"
 PKG_URL="http://ftp.gwdg.de/pub/misc/$PKG_NAME/Downloads/MySQL-5.1/$PKG_NAME-$PKG_VERSION.tar.gz"
 PKG_DEPENDS_HOST="zlib:host"
-PKG_DEPENDS_TARGET="toolchain zlib ncurses mysql:host"
+PKG_DEPENDS_TARGET="toolchain zlib netbsd-curses libressl mysql:host"
 PKG_PRIORITY="optional"
 PKG_SECTION="database"
 PKG_SHORTDESC="mysql: A database server"
@@ -33,7 +33,7 @@ PKG_LONGDESC="MySQL is a SQL (Structured Query Language) database server. SQL is
 PKG_IS_ADDON="no"
 PKG_AUTORECONF="yes"
 
-TARGET_CFLAGS="$TARGET_CFLAGS -fPIC -DPIC -I$SYSROOT_PREFIX/usr/include/ncurses"
+TARGET_CFLAGS="$TARGET_CFLAGS -fPIC -DPIC"
 
 PKG_CONFIGURE_OPTS_HOST="--with-zlib-dir=$ROOT/$TOOLCHAIN"
 
@@ -43,6 +43,7 @@ PKG_CONFIGURE_OPTS_TARGET="ac_cv_c_stack_direction=-1 \
                            --with-unix-socket-path=/var/tmp/mysql.socket \
                            --with-tcp-port=3306 \
                            --enable-static \
+                           --with-ssl=$SYSROOT_PREFIX/usr/lib \
                            --disable-shared \
                            --with-low-memory \
                            --enable-largefile \
@@ -57,7 +58,7 @@ PKG_CONFIGURE_OPTS_TARGET="ac_cv_c_stack_direction=-1 \
                            --without-debug \
                            --without-docs \
                            --without-man \
-                           --with-readline \
+                           --without-readline \
                            --without-libwrap \
                            --without-pstack \
                            --without-server \

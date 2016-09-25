@@ -1,6 +1,6 @@
 ################################################################################
 #      This file is part of OpenELEC - http://www.openelec.tv
-#      Copyright (C) 2009-2014 Stephan Raue (stephan@openelec.tv)
+#      Copyright (C) 2009-2016 Stephan Raue (stephan@openelec.tv)
 #
 #  OpenELEC is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ post_makeinstall_target() {
   rm -r $INSTALL/usr/bin/wpa_cli
 
 mkdir -p $INSTALL/etc/dbus-1/system.d
-  #cp wpa_supplicant/dbus/dbus-wpa_supplicant.conf $INSTALL/etc/dbus-1/system.d
+  cp wpa_supplicant/dbus/dbus-wpa_supplicant.conf $INSTALL/etc/dbus-1/system.d
 
 mkdir -p $INSTALL/usr/lib/systemd/system
   cp wpa_supplicant/systemd/wpa_supplicant.service $INSTALL/usr/lib/systemd/system

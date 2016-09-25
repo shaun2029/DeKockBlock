@@ -10,8 +10,9 @@ ExecStart=/usr/sbin/dnsmasq -d --conf-file=/storage/.config/dnsmasq.conf
 ExecReload=/bin/kill -HUP $MAINPID
 StandardOutput=syslog
 StandardError=syslog
+RestartSec=5
+TimeoutSec=15
 Restart=always
-TimeoutStopSec=1s
 
 [Install]
 # The target is used by 'servicectl enable <name_of_this_file.mount>' to link

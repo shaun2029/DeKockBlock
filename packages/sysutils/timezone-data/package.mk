@@ -1,6 +1,6 @@
 ################################################################################
 #      This file is part of OpenELEC - http://www.openelec.tv
-#      Copyright (C) 2009-2014 Stephan Raue (stephan@openelec.tv)
+#      Copyright (C) 2009-2016 Stephan Raue (stephan@openelec.tv)
 #
 #  OpenELEC is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -17,11 +17,13 @@
 ################################################################################
 
 PKG_NAME="timezone-data"
-PKG_VERSION="2014i"
+PKG_VERSION="2016a"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="Public Domain"
-PKG_SITE="ftp://elsie.nci.nih.gov/pub/"
+PKG_SITE="http://www.iana.org/time-zones"
+# this package actually contains both packages tzcode and tzdate in a single package
+# duplicate files are the same files
 PKG_URL="$DISTRO_SRC/$PKG_NAME-$PKG_VERSION.tar.xz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_PRIORITY="optional"

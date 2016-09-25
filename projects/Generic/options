@@ -26,8 +26,8 @@
   # Target Configfile for u-boot
     UBOOT_CONFIGFILE=""
 
-  # Kernel target for u-boot (default 'uImage' if BOOTLOADER=u-boot) (uImage / zImage)
-    KERNEL_UBOOT_TARGET=""
+  # Kernel target
+    KERNEL_TARGET="bzImage"
 
   # Kernel extra targets to build
     KERNEL_UBOOT_EXTRA_TARGET=""
@@ -70,7 +70,7 @@
   # OpenGL(X) implementation to use (no / mesa)
     OPENGL="mesa"
 
-  # OpenGL-ES implementation to use (no / bcm2835-driver / gpu-viv-bin-mx6q)
+  # OpenGL-ES implementation to use (no / bcm2835-firmware / gpu-viv-bin-mx6q)
     OPENGLES="no"
 
   # include uvesafb support (yes / no)
@@ -79,11 +79,8 @@
   # Displayserver to use (x11 / no)
     DISPLAYSERVER="x11"
 
-  # KODI Player implementation to use (default / bcm2835-driver / libfslvpuwrap)
+  # KODI Player implementation to use (default / bcm2835-firmware / libfslvpuwrap)
     KODIPLAYER_DRIVER="default"
-
-  # KODI DCADEC support (yes / no)
-    DCADEC_SUPPORT="yes"
 
   # Modules to install in initramfs for early boot
     INITRAMFS_MODULES=""

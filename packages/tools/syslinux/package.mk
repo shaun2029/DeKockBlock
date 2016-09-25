@@ -1,6 +1,6 @@
 ################################################################################
 #      This file is part of OpenELEC - http://www.openelec.tv
-#      Copyright (C) 2009-2014 Stephan Raue (stephan@openelec.tv)
+#      Copyright (C) 2009-2016 Stephan Raue (stephan@openelec.tv)
 #
 #  OpenELEC is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -72,6 +72,7 @@ makeinstall_host() {
   mkdir -p $ROOT/$TOOLCHAIN/bin
     cp bios/extlinux/extlinux $ROOT/$TOOLCHAIN/bin
     cp bios/linux/syslinux $ROOT/$TOOLCHAIN/bin
+    cp bios/mtools/syslinux $ROOT/$TOOLCHAIN/bin/syslinux.mtools
 
   mkdir -p $ROOT/$TOOLCHAIN/share/syslinux
     cp bios/mbr/mbr.bin $ROOT/$TOOLCHAIN/share/syslinux

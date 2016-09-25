@@ -1,0 +1,62 @@
+# WiFi Hotspot
+# 
+# Crafted to prevent hotspot crash for Realtek RTL8192EU ID 0BDA:818B
+# Note: fragm_threshold=1000 seems to fix stability issues for this hardware.
+
+interface=wlan0
+
+# ID 0bda:818b Realtek Semiconductor Corp.
+driver=rtl871xdrv
+
+
+bridge=br0
+ssid=dekock
+channel=11
+wpa=3
+wpa_passphrase=dekockblockwifi
+wpa_key_mgmt=WPA-PSK
+wpa_pairwise=TKIP
+rsn_pairwise=CCMP
+hw_mode=g
+
+# Beacon interval in kus (1.024 ms) (default: 100; range 15..65535)
+beacon_int=100
+
+# DTIM (delivery traffic information message) period (range 1..255):
+# number of beacons between DTIMs (1 = every beacon includes DTIM element)
+# (default: 2)
+dtim_period=3
+
+# Maximum number of stations allowed in station table. New stations will be
+# rejected after the station table is full. IEEE 802.11 has a limit of 2007
+# different association IDs, so this number should not be larger than that.
+# (default: 2007)
+max_num_sta=32
+
+# RTS/CTS threshold; -1 = disabled (default); range -1..65535
+# If this field is not included in hostapd.conf, hostapd will not control
+# RTS threshold and 'iwconfig wlan# rts <val>' can be used to set it.
+rts_threshold=1519
+
+# Fragmentation threshold; -1 = disabled (default); range -1, 256..2346
+# If this field is not included in hostapd.conf, hostapd will not control
+# fragmentation threshold and 'iwconfig wlan# frag <val>' can be used to set
+# it.
+#fragm_threshold=1518
+fragm_threshold=1000
+
+# Default WMM parameters (IEEE 802.11 draft; 11-03-0504-03-000e):
+# for 802.11a or 802.11g networks
+# These parameters are sent to WMM clients when they associate.
+# The parameters will be used by WMM clients for frames transmitted to the
+# access point.
+#
+# note - txop_limit is in units of 32microseconds
+# note - acm is admission control mandatory flag. 0 = admission control not
+# required, 1 = mandatory
+# note - Here cwMin and cmMax are in exponent form. The actual cw value used
+# will be (2^n)-1 where n is the value given here. The allowed range for these
+# wmm_ac_??_{cwmin,cwmax} is 0..15 with cwmax >= cwmin.
+#
+wmm_enabled=1
+

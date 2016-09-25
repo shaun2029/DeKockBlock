@@ -64,8 +64,13 @@ SUBSYSTEMS=="acpi", ATTRS{hid}=="LNXPWRBN", \
   ENV{eventlircd_enable}="true", \
   ENV{eventlircd_evmap}="default.evmap"
 
-# WeTek Play keyboard (power button)
+# WeTek Play (power button)
 SUBSYSTEMS=="input", ATTRS{name}=="key_input", \
+  ENV{eventlircd_enable}="true", \
+  ENV{eventlircd_evmap}="default.evmap"
+
+# WeTek Core (power button)
+SUBSYSTEMS=="input", ATTRS{name}=="gpio_keypad", \
   ENV{eventlircd_enable}="true", \
   ENV{eventlircd_evmap}="default.evmap"
 
@@ -157,6 +162,10 @@ ENV{ID_VENDOR_ID}=="18b1", ENV{ID_MODEL_ID}=="0037", \
   ENV{eventlircd_evmap}="03_$env{ID_VENDOR_ID}_$env{ID_MODEL_ID}.evmap"
 
 ENV{ID_VENDOR_ID}=="1d57", ENV{ID_MODEL_ID}=="ac01", \
+  ENV{eventlircd_enable}="true", \
+  ENV{eventlircd_evmap}="03_$env{ID_VENDOR_ID}_$env{ID_MODEL_ID}.evmap"
+
+ENV{ID_VENDOR_ID}=="2252", ENV{ID_MODEL_ID}=="1037", \
   ENV{eventlircd_enable}="true", \
   ENV{eventlircd_evmap}="03_$env{ID_VENDOR_ID}_$env{ID_MODEL_ID}.evmap"
 

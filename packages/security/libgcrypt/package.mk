@@ -1,6 +1,6 @@
 ################################################################################
 #      This file is part of OpenELEC - http://www.openelec.tv
-#      Copyright (C) 2009-2014 Stephan Raue (stephan@openelec.tv)
+#      Copyright (C) 2009-2016 Stephan Raue (stephan@openelec.tv)
 #
 #  OpenELEC is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 ################################################################################
 
 PKG_NAME="libgcrypt"
-PKG_VERSION="1.6.4"
+PKG_VERSION="1.6.5"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
@@ -32,11 +32,14 @@ PKG_LONGDESC="Libgcrypt is a general purpose cryptographic library based on the 
 PKG_IS_ADDON="no"
 PKG_AUTORECONF="yes"
 
-PKG_CONFIGURE_OPTS_TARGET="--disable-asm --with-gnu-ld"
+PKG_CONFIGURE_OPTS_TARGET="ac_cv_sys_symbol_underscore=no \
+                           --enable-asm \
+                           --with-gnu-ld \
+                           --with-libgpg-error-prefix=$SYSROOT_PREFIX/usr"
 
 post_makeinstall_target() {
-  sed -e "s:\(['= ]\)/usr:\\1$SYSROOT_PREFIX/usr:g" -i src/libgcrypt-config
-  cp src/libgcrypt-config $ROOT/$TOOLCHAIN/bin
+  sed -e "s:\(['= ]\)\"/usr:\\1\"$SYSROOT_PREFIX/usr:g" -i src/$PKG_NAME-config
+  cp src/$PKG_NAME-config $SYSROOT_PREFIX/usr/bin
 
   rm -rf $INSTALL/usr/bin
 }

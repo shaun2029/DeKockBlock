@@ -1,6 +1,6 @@
 ################################################################################
 #      This file is part of OpenELEC - http://www.openelec.tv
-#      Copyright (C) 2009-2014 Stephan Raue (stephan@openelec.tv)
+#      Copyright (C) 2009-2016 Stephan Raue (stephan@openelec.tv)
 #
 #  OpenELEC is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -17,11 +17,11 @@
 ################################################################################
 
 PKG_NAME="util-linux"
-PKG_VERSION="2.27.1"
+PKG_VERSION="2.28"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
-PKG_URL="http://www.kernel.org/pub/linux/utils/util-linux/v2.27/$PKG_NAME-$PKG_VERSION.tar.xz"
+PKG_URL="http://www.kernel.org/pub/linux/utils/util-linux/v2.28/$PKG_NAME-$PKG_VERSION.tar.xz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_DEPENDS_INIT="toolchain"
 PKG_PRIORITY="optional"

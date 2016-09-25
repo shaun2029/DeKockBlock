@@ -1,6 +1,6 @@
 ################################################################################
 #      This file is part of OpenELEC - http://www.openelec.tv
-#      Copyright (C) 2009-2014 Stephan Raue (stephan@openelec.tv)
+#      Copyright (C) 2009-2016 Stephan Raue (stephan@openelec.tv)
 #
 #  OpenELEC is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ PKG_ARCH="any"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.openelec.tv"
 PKG_URL=""
-PKG_DEPENDS_TARGET="make:host xz:host sed:host pkg-config:host autoconf:host automake:host libtool:host intltool:host autoconf-archive:host gcc:host bison:host flex:host cmake:host yasm:host"
+PKG_DEPENDS_TARGET="configtools:host make:host xz:host sed:host pkg-config:host autoconf:host automake:host libtool:host intltool:host autoconf-archive:host gcc:host bison:host flex:host cmake:host yasm:host"
 PKG_PRIORITY="optional"
 PKG_SECTION="virtual"
 PKG_SHORTDESC="toolchain: OpenELEC.tv' toolchain"

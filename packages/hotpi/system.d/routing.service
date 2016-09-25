@@ -5,10 +5,10 @@ Requires=network-online.service
 After=network-online.service
 
 [Service]
-Type=oneshot
 ExecStart=/storage/.config/routing.conf
 StandardOutput=syslog
 StandardError=syslog
+Restart=no
 
 
 [Install]

@@ -1,6 +1,6 @@
 ################################################################################
 #      This file is part of OpenELEC - http://www.openelec.tv
-#      Copyright (C) 2009-2014 Stephan Raue (stephan@openelec.tv)
+#      Copyright (C) 2009-2016 Stephan Raue (stephan@openelec.tv)
 #
 #  OpenELEC is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -17,13 +17,13 @@
 ################################################################################
 
 PKG_NAME="nano"
-PKG_VERSION="2.4.3"
+PKG_VERSION="2.5.3"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.nano-editor.org/"
 PKG_URL="http://ftp.gnu.org/gnu/nano/$PKG_NAME-$PKG_VERSION.tar.gz"
-PKG_DEPENDS_TARGET="toolchain ncurses"
+PKG_DEPENDS_TARGET="toolchain netbsd-curses"
 PKG_PRIORITY="optional"
 PKG_SECTION="shell/texteditor"
 PKG_SHORTDESC="nano: Pico editor clone with enhancements"
@@ -32,14 +32,7 @@ PKG_LONGDESC="GNU nano (Nano's ANOther editor, or Not ANOther editor) is an enha
 PKG_IS_ADDON="no"
 PKG_AUTORECONF="yes"
 
-PKG_CONFIGURE_OPTS_TARGET="--disable-utf8 \
-                           --disable-nls"
-
-pre_configure_target() {
-  export CFLAGS="$CFLAGS -I$SYSROOT_PREFIX/usr/include/ncurses"
-  export LDFLAGS=`echo $LDFLAGS | sed -e "s|-Wl,--as-needed||"`
-  export LIBS="$LIBS -lz"
-}
+PKG_CONFIGURE_OPTS_TARGET="--enable-utf8 --disable-nls --disable-libmagic"
 
 post_makeinstall_target() {
   rm -rf $INSTALL/usr/share/nano
