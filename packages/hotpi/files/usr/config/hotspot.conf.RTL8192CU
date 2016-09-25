@@ -1,11 +1,11 @@
 # WiFi Hotspot
 # 
-# Crafted to prevent hotspot crash for Realtek RTL8192EU ID 0BDA:818B
+# Crafted to prevent hotspot crash for Realtek RTL8192CU ID 0bda:8178
 # Note: fragm_threshold=1000 seems to fix stability issues for this hardware.
 
 interface=wlan0
 
-# ID 0bda:818b Realtek Semiconductor Corp.
+# ID 0bda:8178 Realtek Semiconductor Corp. RTL8192CU 802.11n WLAN Adapter
 driver=rtl871xdrv
 
 

@@ -1,0 +1,6 @@
+# Specify per host parameters for the DHCP server. This allows a machine with a particular hardware address to be always allocated the same hostname, IP address and lease time.
+# Format: [<hwaddr>][,id:<client_id>|*][,set:<tag>][,<ipaddr>][,<hostname>][,<lease_time>][,ignore]
+
+# Example:
+# 00:17:88:19:65:86,192.168.0.20,Philips-hue
+

@@ -9,13 +9,13 @@ driver=nl80211
 bridge=br0
 ssid=dekock
 channel=9
-wpa=2
+wpa=3
 wpa_passphrase=dekockblockwifi
 wpa_key_mgmt=WPA-PSK
 wpa_pairwise=TKIP
 rsn_pairwise=CCMP
 
-hw_mode=g
+#hw_mode=g
 
 # WPA and WPA2 configuration
 #macaddr_acl=0      #indicates that you do not use MAC address allow/deny list
@@ -37,3 +37,5 @@ hw_mode=g
 # wmm_ac_??_{cwmin,cwmax} is 0..15 with cwmax >= cwmin.
 #
 wmm_enabled=1
+
+
