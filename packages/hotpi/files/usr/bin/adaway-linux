@@ -49,7 +49,7 @@ i=0
 success=0
 while read src; do
 	if [[ $src != "#*" ]] ; then
-		wget -O "$tmpdir$i" $src
+		wget.real -O "$tmpdir$i" $src
 
 		# test for success
 		if [ $? == 0 ]; then

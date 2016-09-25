@@ -2,7 +2,7 @@
 # The description should be used to explain what this servicefile is for
 Description=Adaway blocks adverts using hosts file
 Requires=dnsmasq.service
-After=routing.service
+After=dnsmasq.service
 
 [Service]
 Type=oneshot

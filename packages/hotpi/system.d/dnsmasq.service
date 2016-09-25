@@ -1,11 +1,12 @@
 [Unit]
 # The description should be used to explain what this servicefile is for
 Description=Dnsmasq server
+Requires=routing.service
 After=routing.service
 
 [Service]
 # Required for dnsmasq
-ExecStartPre=/usr/bin/mkdir -p /var/lib/misc/
+ExecStartPre=-/usr/bin/mkdir -p /var/lib/misc/
 ExecStart=/usr/sbin/dnsmasq -d --conf-file=/storage/.config/dnsmasq.conf
 ExecReload=/bin/kill -HUP $MAINPID
 StandardOutput=syslog

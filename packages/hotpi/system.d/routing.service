@@ -7,6 +7,7 @@ After=network-online.service
 [Service]
 Type=idle
 ExecStart=/storage/.config/routing.conf
+ExecStartPost=-/usr/bin/systemctl restart sshd
 StandardOutput=syslog
 StandardError=syslog
 Restart=no
