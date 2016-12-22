@@ -1,0 +1,14 @@
+[Unit]
+Description=Setup Connman config dir
+DefaultDependencies=no
+ConditionPathExists=!/storage/.cache/connman/settings.done
+After=systemd-tmpfiles-setup.service
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c "mkdir -p /storage/.cache/connman; false | cp -iR /usr/cache/connman/* /storage/.cache/connman/ &>/dev/null"
+ExecStartPost=/bin/touch /storage/.cache/connman/settings.done
+RemainAfterExit=yes
+
+[Install]
+WantedBy=sysinit.target
