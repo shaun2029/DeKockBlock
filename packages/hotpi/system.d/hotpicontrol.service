@@ -1,0 +1,18 @@
+[Unit]
+# The description should be used to explain what this servicefile is for
+Description=Start VPN Hotspot Control service 
+ConditionPathExists=|/storage/.config/ovpn.conf
+Requires=vpn-hotspot.service
+After=vpn-hotspot.service
+
+[Service]
+ExecStart=/usr/bin/hotpicontrol
+
+[Install]
+# The target is used by 'servicectl enable <name_of_this_file.mount>' to link
+# this service to a runlevel for starting on boot. usually 'multi-user.target'
+# is ok here.
+WantedBy=multi-user.target
+
+# Important:
+# enabled via ssh with the command 'servicectl enable hotpicontrol.service'
