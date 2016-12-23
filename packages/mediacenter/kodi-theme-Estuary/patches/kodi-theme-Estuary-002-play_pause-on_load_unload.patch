@@ -1,0 +1,12 @@
+--- kodi-theme-Estuary-17.0-beta6-654f1b7.orig/xml/VideoFullScreen.xml	2016-11-30 21:39:51.000000000 +0000
++++ kodi-theme-Estuary-17.0-beta6-654f1b7/xml/VideoFullScreen.xml	2016-12-23 13:27:58.823149954 +0000
+@@ -1,6 +1,7 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <window>
+-	<defaultcontrol></defaultcontrol>
++	<onunload condition="Player.Playing">PlayerControl(Play)</onunload>
++	<onload condition="Player.Paused">PlayerControl(Play)</onload>
+ 	<controls>
+ 		<control type="group" id="0">
+ 			<control type="label" id="10">
+ 			
