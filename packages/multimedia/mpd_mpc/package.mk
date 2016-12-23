@@ -1,6 +1,6 @@
 ################################################################################
 #      This file is part of OpenELEC - http://www.openelec.tv
-#      Copyright (C) 2009-2016 Stephan Raue (stephan@openelec.tv)
+#      Copyright (C) 2009-2014 Stephan Raue (stephan@openelec.tv)
 #
 #  OpenELEC is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -16,17 +16,32 @@
 #  along with OpenELEC.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-PKG_NAME="oem"
-PKG_VERSION=""
+# NOTE: This is t6he MPC package for MPD renamed to avoid conflict with existing mpc (math library)
+
+PKG_NAME="mpd_mpc"
+PKG_VERSION="0.27"
 PKG_REV="1"
 PKG_ARCH="any"
-PKG_LICENSE="various"
-PKG_SITE="http://www.libreelec.tv"
-PKG_URL=""
-PKG_DEPENDS_TARGET="toolchain hotpi"
-PKG_SECTION="virtual"
-PKG_SHORTDESC="OEM: Metapackage for various OEM packages"
-PKG_LONGDESC="OEM: Metapackage for various OEM packages"
+PKG_LICENSE="GPL"
+PKG_SITE="https://ftp.gnu.org"
+PKG_URL="https://www.immutablefix.co.uk/OpenELEC-HotPi/${PKG_NAME}-${PKG_VERSION}.tar.gz"
+PKG_DEPENDS_TARGET="toolchain libmpdclient"
+PKG_PRIORITY="optional"
+PKG_SECTION="multimedia"
+PKG_SHORTDESC="A minimalist command line interface to MPD."
+PKG_LONGDESC="A minimalist command line interface to MPD."
 
 PKG_IS_ADDON="no"
 PKG_AUTORECONF="no"
+
+configure_target() {
+    cd $ROOT/$PKG_BUILD
+    
+    export LIBMPDCLIENT_LIBS=$SYSROOT_PREFIX/usr/lib/libmpdclient.so LIBMPDCLIENT_CFLAGS=$CFLAGS 
+    ./configure --host=$TARGET_ARCH --build=$HOST_NAME --without-PACKAGE
+}
+
+makeinstall_target() {
+    mkdir -p $INSTALL/usr/bin
+    cp src/mpc $INSTALL/usr/bin/
+}

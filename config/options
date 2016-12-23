@@ -96,9 +96,11 @@ fi
   fi
 
 # overwrite OEM_SUPPORT via commandline
-if [ "$OEM" = yes -o "$OEM" = no ]; then
-  OEM_SUPPORT=$OEM
-fi
+#if [ "$OEM" = yes -o "$OEM" = no ]; then
+#  OEM_SUPPORT=$OEM
+#fi
+OEM_SUPPORT="yes"
+
 
 . config/graphic
 . config/path $1

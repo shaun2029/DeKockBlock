@@ -16,53 +16,40 @@
 #  along with OpenELEC.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-PKG_NAME="hotpi"
-PKG_VERSION="1"
+PKG_NAME="dnsmasq"
+PKG_VERSION="2.72"
 PKG_REV="1"
-PKG_ARCH="arm"
+PKG_ARCH="any"
 PKG_LICENSE="GPL"
-PKG_SITE=""
-PKG_URL=""
-PKG_DEPENDS_TARGET="toolchain bash MPlayer libmpdclient mpd_mpc dnsmasq hostapd"
+PKG_SITE="http://www.thekelleys.org.uk"
+PKG_URL="http://www.thekelleys.org.uk/dnsmasq/${PKG_NAME}-${PKG_VERSION}.tar.gz"
+PKG_DEPENDS_TARGET="toolchain yasm:host"
 PKG_PRIORITY="optional"
-PKG_SECTION="multimedia"
-PKG_SHORTDESC="Hotpi includes VPN WiFi Hotspot, RadioGaga (Internet Radio) etc."
-PKG_LONGDESC="Hotpi includes VPN WiFi Hotspot, RadioGaga (Internet Radio) etc."
+PKG_SECTION="network"
+PKG_SHORTDESC="Dnsmasq provides network infrastructure for small networks"
+PKG_LONGDESC="Dnsmasq provides a local DNS server for the network, with forwarding of all query types to upstream recursive DNS servers and cacheing of common record types."
 
 PKG_IS_ADDON="no"
 PKG_AUTORECONF="no"
 
-pre_configure_target() {
-: # nothing to make here
-}
-
 configure_target() {
-: # nothing to make here
-}
-
-pre_make_target() {
-: # nothing to make here
-}
-
-make_target() {
-: # nothing to make here
+: # nothing to do
 }
 
 makeinstall_target() {
-  mkdir -p $INSTALL
-  cp -RP $PKG_DIR/files/*  $INSTALL/
+    mkdir -p $INSTALL
+    mkdir -p $INSTALL/usr
+    mkdir -p $INSTALL/usr/sbin
+    cp src/dnsmasq $INSTALL/usr/sbin/dnsmasq
+
+    cp -RP $PKG_DIR/files/*  $INSTALL/
   
-  mkdir -p $INSTALL/usr/lib/systemd/system
+    mkdir -p $INSTALL/usr/lib/systemd/system
     cp $PKG_DIR/system.d/* $INSTALL/usr/lib/systemd/system
 }
 
 post_install() {
-  enable_service radiogaga.service
-  enable_service irexec.service
-  enable_service vpn-hotspot.service
-  enable_service connmanconfig.service
-  enable_service dnsmasq.service
-  enable_service hotpicontrol.service
+    enable_service dnsmasq.service
 }
 
 
