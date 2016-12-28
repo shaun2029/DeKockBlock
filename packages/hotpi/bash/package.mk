@@ -38,7 +38,7 @@ configure_target() {
 }
 
 makeinstall_target() {
-    mkdir -p $INSTALL/bin
-    cp bash $INSTALL/bin/bash.real
+    mkdir -p $INSTALL/usr/bin
+    cp bash $INSTALL/usr/bin/bash.real
 }
 
