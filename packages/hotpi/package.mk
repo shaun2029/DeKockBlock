@@ -54,6 +54,9 @@ makeinstall_target() {
   
   mkdir -p $INSTALL/usr/lib/systemd/system
     cp $PKG_DIR/system.d/* $INSTALL/usr/lib/systemd/system
+
+  mkdir -p $INSTALL/usr/share/kodi/system
+    cp $PKG_DIR/kodi.system/* $INSTALL/usr/share/kodi/system/
 }
 
 post_install() {
