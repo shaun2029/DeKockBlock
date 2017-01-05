@@ -1,0 +1,11 @@
+--- kodi-5c40b5c.orig/addons/skin.estouchy/xml/VideoFullScreen.xml	2017-01-05 20:18:10.032395385 +0000
++++ kodi-5c40b5c/addons/skin.estouchy/xml/VideoFullScreen.xml	2017-01-05 20:19:49.050695559 +0000
+@@ -2,6 +2,8 @@
+ <window>
+  <defaultcontrol></defaultcontrol>
+ 	<onunload>ClearProperty(PopupMenuVisible,Home)</onunload>
++	<onunload condition="Player.Playing">PlayerControl(Play)</onunload>
++	<onload condition="Player.Paused">PlayerControl(Play)</onload>
+ 	<controls>
+ 		<!-- codec info -->
+ 		<control type="group" id="0">
