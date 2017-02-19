@@ -5,6 +5,7 @@
   </lookandfeel>
 
   <showexitbutton>false</showexitbutton>
+  <remotedelay>1</remotedelay>
 
   <fanartres>720</fanartres>
   <imageres>540</imageres>
