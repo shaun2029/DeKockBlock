@@ -17,23 +17,23 @@
 ################################################################################
 
 PKG_NAME="bridge-utils"
-PKG_VERSION="1.5"
+PKG_VERSION="1.6"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
-PKG_SITE="http://sourceforge.net/projects/bridge"
-PKG_URL="http://sourceforge.net/projects/bridge/files/bridge/${PKG_NAME}-${PKG_VERSION}.tar.gz"
+PKG_SITE="http://www.linuxfromscratch.org/blfs/view/8.0/basicnet/bridge-utils.html"
+PKG_URL="https://www.kernel.org/pub/linux/utils/net/bridge-utils/${PKG_NAME}-${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_PRIORITY="optional"
 PKG_SECTION="networking"
-PKG_SHORTDESC="Dnsmasq provides network infrastructure for small networks"
-PKG_LONGDESC="Dnsmasq provides a local DNS server for the network, with forwarding of all query types to upstream recursive DNS servers and cacheing of common record types."
+PKG_SHORTDESC="The bridge-utils package contains a utility needed to create and manage bridge devices."
+PKG_LONGDESC="The bridge-utils package contains a utility needed to create and manage bridge devices. This is useful in setting up networks for a hosted virtual machine (VM)."
 
 PKG_IS_ADDON="no"
 PKG_AUTORECONF="no"
 
 configure_target() {
-    autoconf -o configure configure.in
+    autoconf -o configure configure.ac
     ./configure  --host="$TARGET_ARCH" --prefix=/usr CC="$CC" CFLAGS="$CFLAGS" LDFLAGS="$LDFLAGS" LIBS="$LIBS" CPPFLAGS="$CPPFLAGS"
 }
 

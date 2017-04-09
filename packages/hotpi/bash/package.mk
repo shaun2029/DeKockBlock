@@ -17,7 +17,7 @@
 ################################################################################
 
 PKG_NAME="bash"
-PKG_VERSION="4.3"
+PKG_VERSION="4.4"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
@@ -38,7 +38,7 @@ configure_target() {
 }
 
 makeinstall_target() {
-    mkdir -p $INSTALL/bin
-    cp bash $INSTALL/bin/bash.real
+    mkdir -p "$INSTALL/usr/bin"
+    cp bash "$INSTALL/usr/bin/bash.real"
 }
 

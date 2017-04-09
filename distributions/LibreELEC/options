@@ -5,62 +5,62 @@
   GOLD_SUPPORT="yes"
 
 # Name of the Distro to build (full name, without special characters)
-  DISTRONAME="LibreELEC"
+  DISTRONAME="DeKockBlock"
 
 # short project description
-  DESCRIPTION="LibreELEC is a fast and user-friendly Kodi Entertainment Center distribution."
+  DESCRIPTION="DeKockBlock Raspberry Pi router implimenting a firewall, port forwarding, advert blocking,vpn and hotspot."
 
 # Welcome Message for e.g. SSH Server (up to 5 Lines)
   GREETING0="##############################################"
-  GREETING1="#                 LibreELEC                  #"
+  GREETING1="#                 DeKockBlock                  #"
   GREETING2="#            http://libreelec.tv             #"
   GREETING3="##############################################"
   GREETING4=""
 
 # Root password to integrate in the target system
-  ROOT_PASSWORD="libreelec"
+  ROOT_PASSWORD="dekockblock"
 
 # Install glibc locales to the build (yes / no)
   GLIBC_LOCALES="yes"
 
 # Mediacenter to use (kodi / no)
-  MEDIACENTER="kodi"
+  MEDIACENTER="no"
 
 # Skins to install (Estuary)
 # Space separated list is supported,
 # e.g. SKINS="Estuary"
-  SKINS="Estuary"
+  SKINS=""
 
 # Default Skin (Estuary)
-  SKIN_DEFAULT="Estuary"
+  SKIN_DEFAULT=""
 
 # install extra subtitle Fonts for KODI (yes / no)
-  KODI_EXTRA_FONTS="yes"
+  KODI_EXTRA_FONTS="no"
 
 # build and install PulseAudio support (yes / no)
-  PULSEAUDIO_SUPPORT="yes"
+  PULSEAUDIO_SUPPORT="no"
 
 # build and install espeak support (yes / no)
-  ESPEAK_SUPPORT="yes"
+  ESPEAK_SUPPORT="no"
 
 # build and install with non-free support
 # (RAR compression support in KODI) (yes / no)
-  KODI_NONFREE_SUPPORT="yes"
+  KODI_NONFREE_SUPPORT="no"
 
 # build and install with BluRay support (yes / no)
-  KODI_BLURAY_SUPPORT="yes"
+  KODI_BLURAY_SUPPORT="no"
 
 # build and install with BD+ support
 # (BD+ decryption support in KODI) (yes / no)
-  BLURAY_BDPLUS_SUPPORT="yes"
+  BLURAY_BDPLUS_SUPPORT="no"
 
 # build and install with AACS support
 # (BD decryption support in KODI) (yes / no)
-  BLURAY_AACS_SUPPORT="yes"
+  BLURAY_AACS_SUPPORT="no"
 
 # build and install with DVDCSS support
 # (DVD decryption support in KODI) (yes / no)
-  KODI_DVDCSS_SUPPORT="yes"
+  KODI_DVDCSS_SUPPORT="no"
 
 # additional drivers to install:
 # for a list of additinoal drivers see packages/linux-drivers
@@ -69,49 +69,49 @@
   ADDITIONAL_DRIVERS="RTL8192CU RTL8192DU RTL8192EU RTL8188EU RTL8812AU"
 
 # build and install bluetooth support (yes / no)
-  BLUETOOTH_SUPPORT="yes"
+  BLUETOOTH_SUPPORT="no"
 
 # build and install with KODI webfrontend (yes / no)
-  KODI_WEBSERVER_SUPPORT="yes"
+  KODI_WEBSERVER_SUPPORT="no"
 
 # build and install Avahi (Zeroconf) daemon (yes / no)
   AVAHI_DAEMON="yes"
 
 # build with UPnP support (yes / no)
-  KODI_UPNP_SUPPORT="yes"
+  KODI_UPNP_SUPPORT="no"
 
 # build with MySQL support (yes / no)
-  KODI_MYSQL_SUPPORT="yes"
+  KODI_MYSQL_SUPPORT="no"
 
 # build xbmc with sshlib support (yes / no)
-  KODI_SSHLIB_SUPPORT="yes"
+  KODI_SSHLIB_SUPPORT="no"
 
 # build xbmc with optical drive support (yes / no)
-  KODI_OPTICAL_SUPPORT="yes"
+  KODI_OPTICAL_SUPPORT="no"
 
 # build with AirPlay support (stream videos from iDevices to KODI) (yes / no)
-  KODI_AIRPLAY_SUPPORT="yes"
+  KODI_AIRPLAY_SUPPORT="no"
 
 # build with AirTunes support (stream music from iDevices to KODI) (yes / no)
-  KODI_AIRTUNES_SUPPORT="yes"
+  KODI_AIRTUNES_SUPPORT="no"
 
 # build with libnfs support (mounting nfs shares with KODI) (yes / no)
-  KODI_NFS_SUPPORT="yes"
+  KODI_NFS_SUPPORT="no"
 
 # build with Samba Client support (mounting SAMBA shares with KODI) (yes / no)
-  KODI_SAMBA_SUPPORT="yes"
+  KODI_SAMBA_SUPPORT="no"
 
 # build with NFS support (mounting nfs shares via the OS) (yes / no)
-  NFS_SUPPORT="yes"
+  NFS_SUPPORT="no"
 
 # build with Samba Client support (mounting samba shares via the OS) (yes / no)
-  SAMBA_SUPPORT="yes"
+  SAMBA_SUPPORT="no"
 
 # build and install Samba Server (yes / no)
-  SAMBA_SERVER="yes"
+  SAMBA_SERVER="no"
 
 # build and install SFTP Server (yes / no)
-  SFTP_SERVER="yes"
+  SFTP_SERVER="no"
 
 # build and install OpenVPN support (yes / no)
   OPENVPN_SUPPORT="yes"
@@ -119,39 +119,39 @@
 # build and install diskmounter support (udevil)
 # this service provide auto mounting support for external drives in the
 # mediacenter also automount internally drives at boottime via udev (yes / no)
-  UDEVIL="yes"
+  UDEVIL="no"
 
 # build and install exFAT fuse support (yes / no)
   EXFAT="yes"
 
 # build and install NTFS-3G fuse support (yes / no)
-  NTFS3G="yes"
+  NTFS3G="no"
 
 # build and install hfs filesystem utilities (yes / no)
-  HFSTOOLS="yes"
+  HFSTOOLS="no"
 
 # Windowmanager to use (fluxbox / none)
-  WINDOWMANAGER="fluxbox"
+  WINDOWMANAGER="none"
 
 # Xorg Graphic drivers to use (all / i915,i965,r200,r300,r600,nvidia)
 # Space separated list is supported,
 # e.g. GRAPHIC_DRIVERS="i915 i965 r300 r600 radeonsi nvidia"
-  GRAPHIC_DRIVERS="r300 r600 radeonsi i915 i965 nvidia nvidia-legacy"
+  GRAPHIC_DRIVERS=""
 
 # build and install remote support (yes / no)
-  REMOTE_SUPPORT="yes"
+  REMOTE_SUPPORT="no"
 
 # build and install ATV IR remote support (yes / no)
-  ATVCLIENT_SUPPORT="yes"
+  ATVCLIENT_SUPPORT="no"
 
 # build and install Joystick support (yes / no)
-  JOYSTICK_SUPPORT="yes"
+  JOYSTICK_SUPPORT="no"
 
 # build and install CEC adapter support (yes / no)
-  CEC_SUPPORT="yes"
+  CEC_SUPPORT="no"
 
 # build and install iSCSI support - iscsistart (yes / no)
-  ISCSI_SUPPORT="yes"
+  ISCSI_SUPPORT="no"
 
 # Support for partitioning and formating disks in initramfs (yes / no)
 # This adds support for parted and mkfs.ext3/4 to initramfs for OEM usage

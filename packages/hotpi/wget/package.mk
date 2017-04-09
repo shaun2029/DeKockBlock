@@ -38,7 +38,7 @@ configure_target() {
 }
 
 makeinstall_target() {
-    mkdir -p $INSTALL/bin
-    cp src/wget $INSTALL/bin/wget.real
+    mkdir -p $INSTALL/usr/bin
+    cp src/wget $INSTALL/usr/bin/wget.real
 }
 
