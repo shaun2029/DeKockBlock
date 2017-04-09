@@ -1,0 +1,23 @@
+[Unit]
+# The description should be used to explain what this servicefile is for
+Description=Configure routing
+Requires=network-online.service
+After=network-online.service
+
+[Service]
+Type=idle
+ExecStart=/storage/.config/routing.conf
+ExecStartPost=-/usr/bin/systemctl restart sshd
+StandardOutput=syslog
+StandardError=syslog
+Restart=no
+
+
+[Install]
+# The target is used by 'servicectl enable <name_of_this_file.mount>' to link
+# this service to a runlevel for starting on boot. usually 'multi-user.target'
+# is ok here.
+WantedBy=multi-user.target
+
+# Important:
+# enabled via ssh with the command 'servicectl enable routing.service'

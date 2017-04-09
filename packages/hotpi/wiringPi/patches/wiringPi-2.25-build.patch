@@ -1,0 +1,354 @@
+diff -Naur wiringPi-2.25.orig/build wiringPi-2.25/build
+--- wiringPi-2.25.orig/build	2015-03-08 16:59:33.000000000 +0000
++++ wiringPi-2.25/build	2015-04-04 21:26:14.166367618 +0100
+@@ -65,11 +65,11 @@
+ 
+ if [ x$1 = "xuninstall" ]; then
+   cd wiringPi
+-  echo -n "wiringPi: " ; sudo make uninstall
++  echo -n "wiringPi: " ; ##sudo make uninstall
+   cd ../devLib
+-  echo -n "DevLib:   " ; sudo make uninstall
++  echo -n "DevLib:   " ; ##sudo make uninstall
+   cd ../gpio
+-  echo -n "gpio:     " ; sudo make uninstall
++  echo -n "gpio:     " ; ##sudo make uninstall
+   exit
+ fi
+ 
+@@ -91,7 +91,7 @@
+   exit
+ fi
+ 
+-if [ x$1 != "x" ]; then
++if [ [ x$1 != "xstatic" ] || [ x$1 != "xstatic" ] ]; then
+   echo "Usage: $0 [clean | uninstall]"
+   exit 1
+ fi
+@@ -121,39 +121,41 @@
+   echo
+   echo "WiringPi Library"
+   cd wiringPi
+-  sudo make uninstall
++  ##sudo make uninstall
+   if [ x$1 = "xstatic" ]; then
+     make -j5 static
+-    check_make_ok
+-    sudo make install-static
++    check_make_ok LD="$LD" CC="$CC"
++    ##sudo make install-static
+   else
+     make -j5
+-    check_make_ok
+-    sudo make install
++    check_make_ok LD="$LD" CC="$CC"
++    ##sudo make install
+   fi
+   check_make_ok
+ 
+   echo
+   echo "WiringPi Devices Library"
+   cd ../devLib
+-  sudo make uninstall
++  ##sudo make uninstall
+   if [ x$1 = "xstatic" ]; then
+-    make -j5 static
++    make -j5 static LD="$LD" CC="$CC"
+     check_make_ok
+-    sudo make install-static
++    ##sudo make install-static
+   else
+-    make -j5
++    make -j5 LD="$LD" CC="$CC"
+     check_make_ok
+-    sudo make install
++    ##sudo make install
+   fi
+   check_make_ok
+ 
+   echo
+   echo "GPIO Utility"
+   cd ../gpio
+-  make -j5
++  cp ../wiringPi/*.so.* ../gpio/libwiringPi.so
++  cp ../devLib/*.so.* ../gpio/libwiringPiDev.so
++  make -j5 LD="$LD" CC="$CC"
+   check_make_ok
+-  sudo make install
++  ##sudo make install
+   check_make_ok
+ 
+ # echo
+diff -Naur wiringPi-2.25.orig/devLib/ds1302.c wiringPi-2.25/devLib/ds1302.c
+--- wiringPi-2.25.orig/devLib/ds1302.c	2015-03-08 16:59:33.000000000 +0000
++++ wiringPi-2.25/devLib/ds1302.c	2015-04-04 17:01:26.464798629 +0100
+@@ -27,7 +27,7 @@
+ #include <stdint.h>
+ #include <stdarg.h>
+ 
+-#include <wiringPi.h>
++#include "../wiringPi/wiringPi.h"
+ 
+ #include "ds1302.h"
+ 
+diff -Naur wiringPi-2.25.orig/devLib/gertboard.c wiringPi-2.25/devLib/gertboard.c
+--- wiringPi-2.25.orig/devLib/gertboard.c	2015-03-08 16:59:33.000000000 +0000
++++ wiringPi-2.25/devLib/gertboard.c	2015-04-04 17:01:12.561108336 +0100
+@@ -38,8 +38,8 @@
+ #include <sys/ioctl.h>
+ #include <linux/spi/spidev.h>
+ 
+-#include <wiringPi.h>
+-#include <wiringPiSPI.h>
++#include "../wiringPi/wiringPi.h"
++#include "../wiringPi/wiringPiSPI.h"
+ 
+ #include "gertboard.h"
+ 
+diff -Naur wiringPi-2.25.orig/devLib/lcd128x64.c wiringPi-2.25/devLib/lcd128x64.c
+--- wiringPi-2.25.orig/devLib/lcd128x64.c	2015-04-04 17:15:42.540348420 +0100
++++ wiringPi-2.25/devLib/lcd128x64.c	2015-04-04 17:14:55.701564427 +0100
+@@ -33,7 +33,7 @@
+ #include <stdio.h>
+ #include <stdlib.h>
+ 
+-#include <wiringPi.h>
++#include "../wiringPi/wiringPi.h"
+ 
+ #include "font.h"
+ #include "lcd128x64.h"
+diff -Naur wiringPi-2.25.orig/devLib/lcd.c wiringPi-2.25/devLib/lcd.c
+--- wiringPi-2.25.orig/devLib/lcd.c	2015-03-08 16:59:33.000000000 +0000
++++ wiringPi-2.25/devLib/lcd.c	2015-04-04 17:00:54.841503107 +0100
+@@ -28,7 +28,7 @@
+ #include <stdlib.h>
+ #include <stdarg.h>
+ 
+-#include <wiringPi.h>
++#include "../wiringPi/wiringPi.h"
+ 
+ #include "lcd.h"
+ 
+diff -Naur wiringPi-2.25.orig/devLib/maxdetect.c wiringPi-2.25/devLib/maxdetect.c
+--- wiringPi-2.25.orig/devLib/maxdetect.c	2015-03-08 16:59:33.000000000 +0000
++++ wiringPi-2.25/devLib/maxdetect.c	2015-04-04 17:00:01.218698183 +0100
+@@ -26,7 +26,7 @@
+ //#include <stdlib.h>
+ //#include <unistd.h>
+ 
+-#include <wiringPi.h>
++#include "../wiringPi/wiringPi.h"
+ 
+ #include "maxdetect.h"
+ 
+diff -Naur wiringPi-2.25.orig/devLib/piFace.c wiringPi-2.25/devLib/piFace.c
+--- wiringPi-2.25.orig/devLib/piFace.c	2015-03-08 16:59:33.000000000 +0000
++++ wiringPi-2.25/devLib/piFace.c	2015-04-04 16:58:33.568653017 +0100
+@@ -28,8 +28,8 @@
+ #include <stdio.h>
+ #include <stdint.h>
+ 
+-#include <wiringPi.h>
+-#include <mcp23s17.h>
++#include "../wiringPi/wiringPi.h"
++#include "../wiringPi/mcp23s17.h"
+ 
+ #include "piFace.h"
+ 
+diff -Naur wiringPi-2.25.orig/devLib/piGlow.c wiringPi-2.25/devLib/piGlow.c
+--- wiringPi-2.25.orig/devLib/piGlow.c	2015-03-08 16:59:33.000000000 +0000
++++ wiringPi-2.25/devLib/piGlow.c	2015-04-04 17:02:47.770988368 +0100
+@@ -22,8 +22,8 @@
+  ***********************************************************************
+  */
+ 
+-#include <wiringPi.h>
+-#include <sn3218.h>
++#include "../wiringPi/wiringPi.h"
++#include "../wiringPi/sn3218.h"
+ 
+ #include "piGlow.h"
+ 
+diff -Naur wiringPi-2.25.orig/devLib/piNes.c wiringPi-2.25/devLib/piNes.c
+--- wiringPi-2.25.orig/devLib/piNes.c	2015-03-08 16:59:33.000000000 +0000
++++ wiringPi-2.25/devLib/piNes.c	2015-04-04 16:59:39.179189558 +0100
+@@ -22,7 +22,7 @@
+  ***********************************************************************
+  */
+ 
+-#include <wiringPi.h>
++#include "../wiringPi/wiringPi.h"
+ 
+ #include "piNes.h"
+ 
+diff -Naur wiringPi-2.25.orig/gpio/gpio.c wiringPi-2.25/gpio/gpio.c
+--- wiringPi-2.25.orig/gpio/gpio.c	2015-03-08 16:59:33.000000000 +0000
++++ wiringPi-2.25/gpio/gpio.c	2015-04-04 16:58:03.373326864 +0100
+@@ -34,11 +34,11 @@
+ #include <sys/types.h>
+ #include <sys/stat.h>
+ 
+-#include <wiringPi.h>
+-#include <wpiExtensions.h>
++#include "../wiringPi/wiringPi.h"
++#include "../wiringPi/wpiExtensions.h"
+ 
+-#include <gertboard.h>
+-#include <piFace.h>
++#include "../devLib/gertboard.h"
++#include "../devLib/piFace.h"
+ 
+ #include "version.h"
+ 
+diff -Naur wiringPi-2.25.orig/gpio/Makefile wiringPi-2.25/gpio/Makefile
+--- wiringPi-2.25.orig/gpio/Makefile	2015-03-08 16:59:33.000000000 +0000
++++ wiringPi-2.25/gpio/Makefile	2015-04-04 16:57:27.390130151 +0100
+@@ -32,7 +32,7 @@
+ INCLUDE	= -I$(DESTDIR)$(PREFIX)/include
+ CFLAGS	= $(DEBUG) -Wall $(INCLUDE) -Winline -pipe
+ 
+-LDFLAGS	= -L$(DESTDIR)$(PREFIX)/lib
++LDFLAGS	= -L.
+ LIBS    = -lwiringPi -lwiringPiDev -lpthread -lm
+ 
+ # May not need to  alter anything below this line
+diff -Naur wiringPi-2.25.orig/gpio/readall.c wiringPi-2.25/gpio/readall.c
+--- wiringPi-2.25.orig/gpio/readall.c	2015-03-08 16:59:33.000000000 +0000
++++ wiringPi-2.25/gpio/readall.c	2015-04-04 16:57:47.269686323 +0100
+@@ -33,7 +33,7 @@
+ #include <sys/types.h>
+ #include <sys/stat.h>
+ 
+-#include <wiringPi.h>
++#include "../wiringPi/wiringPi.h"
+ 
+ extern int wpMode ;
+ 
+diff -Naur wiringPi-2.25.orig/wiringPi/Makefile wiringPi-2.25/wiringPi/Makefile
+--- wiringPi-2.25.orig/wiringPi/Makefile	2015-03-08 16:59:33.000000000 +0000
++++ wiringPi-2.25/wiringPi/Makefile	2015-04-04 21:17:55.809459241 +0100
+@@ -29,11 +29,11 @@
+ DYNAMIC=libwiringPi.so.$(VERSION)
+ 
+ #DEBUG	= -g -O0
+-DEBUG	= -O2
+-CC	= gcc
++##DEBUG	= -O2
++##CC	= gcc
+ INCLUDE	= -I.
+ DEFS	= -D_GNU_SOURCE
+-CFLAGS	= $(DEBUG) $(DEFS) -Wformat=2 -Wall -Winline $(INCLUDE) -pipe -fPIC
++##CFLAGS	= $(DEBUG) $(DEFS) -Wformat=2 -Wall -Winline $(INCLUDE) -pipe -fPIC
+ 
+ LIBS    =
+ 
+diff -Naur wiringPi-2.25.orig/wiringPi/max31855.c wiringPi-2.25/wiringPi/max31855.c
+--- wiringPi-2.25.orig/wiringPi/max31855.c	2015-03-08 16:59:33.000000000 +0000
++++ wiringPi-2.25/wiringPi/max31855.c	2015-04-04 19:59:33.282120889 +0100
+@@ -22,8 +22,8 @@
+  ***********************************************************************
+  */
+ 
+-#include <wiringPi.h>
+-#include <wiringPiSPI.h>
++#include "wiringPi.h"
++#include "wiringPiSPI.h"
+ 
+ #include "max31855.h"
+ 
+diff -Naur wiringPi-2.25.orig/wiringPi/max5322.c wiringPi-2.25/wiringPi/max5322.c
+--- wiringPi-2.25.orig/wiringPi/max5322.c	2015-03-08 16:59:33.000000000 +0000
++++ wiringPi-2.25/wiringPi/max5322.c	2015-04-04 19:59:33.282120889 +0100
+@@ -22,8 +22,8 @@
+  ***********************************************************************
+  */
+ 
+-#include <wiringPi.h>
+-#include <wiringPiSPI.h>
++#include "wiringPi.h"
++#include "wiringPiSPI.h"
+ 
+ #include "max5322.h"
+ 
+diff -Naur wiringPi-2.25.orig/wiringPi/mcp3002.c wiringPi-2.25/wiringPi/mcp3002.c
+--- wiringPi-2.25.orig/wiringPi/mcp3002.c	2015-03-08 16:59:33.000000000 +0000
++++ wiringPi-2.25/wiringPi/mcp3002.c	2015-04-04 19:59:33.286120800 +0100
+@@ -22,8 +22,8 @@
+  ***********************************************************************
+  */
+ 
+-#include <wiringPi.h>
+-#include <wiringPiSPI.h>
++#include "wiringPi.h"
++#include "wiringPiSPI.h"
+ 
+ #include "mcp3002.h"
+ 
+diff -Naur wiringPi-2.25.orig/wiringPi/mcp3004.c wiringPi-2.25/wiringPi/mcp3004.c
+--- wiringPi-2.25.orig/wiringPi/mcp3004.c	2015-03-08 16:59:33.000000000 +0000
++++ wiringPi-2.25/wiringPi/mcp3004.c	2015-04-04 19:59:33.270121156 +0100
+@@ -24,8 +24,8 @@
+  ***********************************************************************
+  */
+ 
+-#include <wiringPi.h>
+-#include <wiringPiSPI.h>
++#include "wiringPi.h"
++#include "wiringPiSPI.h"
+ 
+ #include "mcp3004.h"
+ 
+diff -Naur wiringPi-2.25.orig/wiringPi/mcp3422.c wiringPi-2.25/wiringPi/mcp3422.c
+--- wiringPi-2.25.orig/wiringPi/mcp3422.c	2015-03-08 16:59:33.000000000 +0000
++++ wiringPi-2.25/wiringPi/mcp3422.c	2015-04-04 19:59:33.282120889 +0100
+@@ -31,8 +31,8 @@
+ #include <sys/ioctl.h>
+ #include <linux/spi/spidev.h>
+ 
+-#include <wiringPi.h>
+-#include <wiringPiI2C.h>
++#include "wiringPi.h"
++#include "wiringPiI2C.h"
+ 
+ #include "mcp3422.h"
+ 
+diff -Naur wiringPi-2.25.orig/wiringPi/mcp4802.c wiringPi-2.25/wiringPi/mcp4802.c
+--- wiringPi-2.25.orig/wiringPi/mcp4802.c	2015-03-08 16:59:33.000000000 +0000
++++ wiringPi-2.25/wiringPi/mcp4802.c	2015-04-04 19:59:33.282120889 +0100
+@@ -22,8 +22,8 @@
+  ***********************************************************************
+  */
+ 
+-#include <wiringPi.h>
+-#include <wiringPiSPI.h>
++#include "wiringPi.h"
++#include "wiringPiSPI.h"
+ 
+ #include "mcp4802.h"
+ 
+diff -Naur wiringPi-2.25.orig/wiringPi/sn3218.c wiringPi-2.25/wiringPi/sn3218.c
+--- wiringPi-2.25.orig/wiringPi/sn3218.c	2015-03-08 16:59:33.000000000 +0000
++++ wiringPi-2.25/wiringPi/sn3218.c	2015-04-04 19:59:33.290120711 +0100
+@@ -22,8 +22,8 @@
+  ***********************************************************************
+  */
+ 
+-#include <wiringPi.h>
+-#include <wiringPiI2C.h>
++#include "wiringPi.h"
++#include "wiringPiI2C.h"
+ 
+ #include "sn3218.h"
+ 
+diff -Naur wiringPi-2.25.orig/wiringPi/wpiExtensions.c wiringPi-2.25/wiringPi/wpiExtensions.c
+--- wiringPi-2.25.orig/wiringPi/wpiExtensions.c	2015-03-08 16:59:33.000000000 +0000
++++ wiringPi-2.25/wiringPi/wpiExtensions.c	2015-04-04 19:59:33.294120622 +0100
+@@ -36,7 +36,7 @@
+ #include <sys/types.h>
+ #include <fcntl.h>
+ 
+-#include <wiringPi.h>
++#include "wiringPi.h"
+ 
+ #include "mcp23008.h"
+ #include "mcp23016.h"

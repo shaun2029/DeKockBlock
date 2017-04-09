@@ -1,5 +1,0 @@
-101
-- update to TigerVNC 1.7.1
-
-100
-- Initial addon

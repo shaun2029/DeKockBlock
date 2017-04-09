@@ -16,56 +16,30 @@
 #  along with OpenELEC.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-PKG_NAME="hotpi"
-PKG_VERSION="1"
+PKG_NAME="bridge-utils"
+PKG_VERSION="1.5"
 PKG_REV="1"
-PKG_ARCH="arm"
+PKG_ARCH="any"
 PKG_LICENSE="GPL"
-PKG_SITE=""
-PKG_URL=""
-PKG_DEPENDS_TARGET="toolchain bash dnsmasq bridge-utils avahi openvpn wiringPi wget"
+PKG_SITE="http://sourceforge.net/projects/bridge"
+PKG_URL="http://sourceforge.net/projects/bridge/files/bridge/${PKG_NAME}-${PKG_VERSION}.tar.gz"
+PKG_DEPENDS_TARGET="toolchain"
 PKG_PRIORITY="optional"
 PKG_SECTION="networking"
-PKG_SHORTDESC="Hotpi includes VPN WiFi Hotspot, RadioGaga (Internet Radio) etc."
-PKG_LONGDESC="Hotpi includes VPN WiFi Hotspot, RadioGaga (Internet Radio) etc."
+PKG_SHORTDESC="Dnsmasq provides network infrastructure for small networks"
+PKG_LONGDESC="Dnsmasq provides a local DNS server for the network, with forwarding of all query types to upstream recursive DNS servers and cacheing of common record types."
 
 PKG_IS_ADDON="no"
 PKG_AUTORECONF="no"
 
-pre_configure_target() {
-: # nothing to make here
-}
-
 configure_target() {
-: # nothing to make here
-}
-
-pre_make_target() {
-: # nothing to make here
-}
-
-make_target() {
-: # nothing to make here
+    autoconf -o configure configure.in
+    ./configure  --host="$TARGET_ARCH" --prefix=/usr CC="$CC" CFLAGS="$CFLAGS" LDFLAGS="$LDFLAGS" LIBS="$LIBS" CPPFLAGS="$CPPFLAGS"
 }
 
 makeinstall_target() {
-  mkdir -p $INSTALL
-  cp -RP $PKG_DIR/files/*  $INSTALL/
-
-  mkdir -p $INSTALL/usr/lib/systemd/system
-    cp $PKG_DIR/system.d/* $INSTALL/usr/lib/systemd/system
-    
+    mkdir -p $INSTALL/usr
+    mkdir -p $INSTALL/usr/sbin
+    cp brctl/brctl $INSTALL/usr/sbin/brctl
 }
-
-post_install() {
-  enable_service routing.service
-  enable_service dnsmasq.service
-  enable_service hotspot.service
-  enable_service hotspot-restart.service
-  enable_service hotspot-restart.timer
-  enable_service adaway.service
-  enable_service switch-monitor.service
-  enable_service haveged.service
-}
-
 

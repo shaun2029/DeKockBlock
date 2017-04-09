@@ -16,56 +16,42 @@
 #  along with OpenELEC.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-PKG_NAME="hotpi"
-PKG_VERSION="1"
+PKG_NAME="wiringPi"
+PKG_VERSION="2.25"
 PKG_REV="1"
+PKG_PROJECT="RPi"
 PKG_ARCH="arm"
 PKG_LICENSE="GPL"
-PKG_SITE=""
-PKG_URL=""
-PKG_DEPENDS_TARGET="toolchain bash dnsmasq bridge-utils avahi openvpn wiringPi wget"
+PKG_SITE="https://github.com/shaun2029/wiringPi"
+PKG_URL="https://github.com/shaun2029/wiringPi/releases/download/v${PKG_VERSION}/${PKG_NAME}-${PKG_VERSION}.tar.gz"
+PKG_DEPENDS_TARGET="toolchain bash"
 PKG_PRIORITY="optional"
-PKG_SECTION="networking"
-PKG_SHORTDESC="Hotpi includes VPN WiFi Hotspot, RadioGaga (Internet Radio) etc."
-PKG_LONGDESC="Hotpi includes VPN WiFi Hotspot, RadioGaga (Internet Radio) etc."
+PKG_SECTION="utility"
+PKG_SHORTDESC="WiringPi provides is a GPIO for the Raspberry Pi."
+PKG_LONGDESC="WiringPi is a GPIO access library written in C for the BCM2835 used in the Raspberry Pi."
 
 PKG_IS_ADDON="no"
 PKG_AUTORECONF="no"
 
 pre_configure_target() {
-: # nothing to make here
-}
-
-configure_target() {
-: # nothing to make here
-}
-
-pre_make_target() {
-: # nothing to make here
+  export LD="$TARGET_LD"
+  export LDFLAGS="$TARGET_LDFLAGS"
+  #export CC="$CC"
 }
 
 make_target() {
-: # nothing to make here
+    ./build
 }
 
 makeinstall_target() {
-  mkdir -p $INSTALL
-  cp -RP $PKG_DIR/files/*  $INSTALL/
+    mkdir -p $INSTALL/usr/lib
+    mkdir -p $INSTALL/usr/bin
 
-  mkdir -p $INSTALL/usr/lib/systemd/system
-    cp $PKG_DIR/system.d/* $INSTALL/usr/lib/systemd/system
-    
+    cp wiringPi/libwiringPi.so.$PKG_VERSION $INSTALL/usr/lib/libwiringPi.so
+    cp devLib/libwiringPiDev.so.$PKG_VERSION $INSTALL/usr/lib/libwiringPiDev.so
+    cp gpio/gpio $INSTALL/usr/bin/
+    cp gpio/pintest $INSTALL/usr/bin/
 }
 
-post_install() {
-  enable_service routing.service
-  enable_service dnsmasq.service
-  enable_service hotspot.service
-  enable_service hotspot-restart.service
-  enable_service hotspot-restart.timer
-  enable_service adaway.service
-  enable_service switch-monitor.service
-  enable_service haveged.service
-}
 
 
