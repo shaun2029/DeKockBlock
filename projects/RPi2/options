@@ -81,13 +81,13 @@
 ################################################################################
 
   # build and install ALSA Audio support (yes / no)
-    ALSA_SUPPORT="yes"
+    ALSA_SUPPORT="no"
 
   # OpenGL(X) implementation to use (no / mesa)
     OPENGL="no"
 
   # OpenGL-ES implementation to use (no / bcm2835-driver / gpu-viv-bin-mx6q)
-    OPENGLES="bcm2835-driver"
+    OPENGLES="no"
 
   # include uvesafb support (yes / no)
     UVESAFB_SUPPORT="no"
@@ -112,7 +112,7 @@
   # additional Firmware to use (dvb-firmware, misc-firmware, wlan-firmware)
   # Space separated list is supported,
   # e.g. FIRMWARE="dvb-firmware misc-firmware wlan-firmware"
-    FIRMWARE="misc-firmware wlan-firmware dvb-firmware brcmfmac_sdio-firmware-rpi"
+    FIRMWARE="misc-firmware wlan-firmware brcmfmac_sdio-firmware-rpi"
 
   # build and install ATV IR remote support (yes / no)
     ATVCLIENT_SUPPORT="no"
@@ -129,6 +129,10 @@
   # build with installer (yes / no)
     INSTALLER_SUPPORT="no"
 
+  # build debug with valgrind (yes / no)
+  # Not available for armv6. Increases image size significantly
+    VALGRIND="no"
+
   # kernel image name
     KERNEL_NAME="kernel.img"
 
@@ -136,4 +140,4 @@
   # for a list of additinoal drivers see packages/linux-drivers
   # Space separated list is supported,
   # e.g. ADDITIONAL_DRIVERS="DRIVER1 DRIVER2"
-    ADDITIONAL_DRIVERS="$ADDITIONAL_DRIVERS media_build"
+    ADDITIONAL_DRIVERS="$ADDITIONAL_DRIVERS"

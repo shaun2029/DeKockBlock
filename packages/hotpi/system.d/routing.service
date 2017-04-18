@@ -7,11 +7,9 @@ After=network-online.service
 [Service]
 Type=idle
 ExecStart=/storage/.config/routing.conf
-ExecStartPost=-/usr/bin/systemctl restart sshd
 StandardOutput=syslog
 StandardError=syslog
 Restart=no
-
 
 [Install]
 # The target is used by 'servicectl enable <name_of_this_file.mount>' to link

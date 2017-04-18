@@ -12,7 +12,7 @@ ExecStart=/usr/sbin/hostapd -d /storage/.config/hotspot.conf
 StandardOutput=null
 StandardError=syslog
 Restart=always
-TimeoutStopSec=10s
+TimeoutStopSec=20s
 
 [Install]
 # The target is used by 'servicectl enable <name_of_this_file.mount>' to link
@@ -21,4 +21,4 @@ TimeoutStopSec=10s
 WantedBy=multi-user.target
 
 # Important:
-# enabled via ssh with the command 'servicectl enable hotspot.service'
+# enabled with the command 'servicectl enable hotspot.service'

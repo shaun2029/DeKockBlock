@@ -17,13 +17,13 @@
 ################################################################################
 
 PKG_NAME="wiringPi"
-PKG_VERSION="2.25"
+PKG_VERSION="2.44"
 PKG_REV="1"
 PKG_PROJECT="RPi"
 PKG_ARCH="arm"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/shaun2029/wiringPi"
-PKG_URL="https://github.com/shaun2029/wiringPi/releases/download/v${PKG_VERSION}/${PKG_NAME}-${PKG_VERSION}.tar.gz"
+PKG_URL="https://github.com/shaun2029/wiringPi/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain bash"
 PKG_PRIORITY="optional"
 PKG_SECTION="utility"
