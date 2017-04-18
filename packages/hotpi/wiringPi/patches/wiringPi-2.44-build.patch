@@ -1,6 +1,6 @@
 diff -Naur wiringPi-2.44.orig/build wiringPi-2.44/build
---- wiringPi-2.44.orig/build	2017-04-17 14:37:47.110058555 +0100
-+++ wiringPi-2.44/build	2017-04-17 14:37:52.657961470 +0100
+--- wiringPi-2.44.orig/build	2017-04-18 22:03:49.597058757 +0100
++++ wiringPi-2.44/build	2017-04-18 22:01:01.559961945 +0100
 @@ -69,11 +69,11 @@
  
  if [ x$1 = "xuninstall" ]; then
@@ -25,7 +25,7 @@ diff -Naur wiringPi-2.44.orig/build wiringPi-2.44/build
    echo "Usage: $0 [clean | uninstall]"
    exit 1
  fi
-@@ -125,39 +125,34 @@
+@@ -125,39 +125,35 @@
    echo
    echo "WiringPi Library"
    cd wiringPi
@@ -64,8 +64,9 @@ diff -Naur wiringPi-2.44.orig/build wiringPi-2.44/build
    echo "GPIO Utility"
    cd ../gpio
 -  make -j5
-+##  cp ../wiringPi/*.so.* ../gpio/
-+  cp ../devLib/*.so.* ../wiringPi/
++  VER=`cat ../VERSION`
++  cp ../wiringPi/libwiringPi.so.$VER ../wiringPi/libwiringPi.so
++  cp ../devLib/libwiringPiDev.so.$VER ../wiringPi/libwiringPiDev.so
 +  make -j5 LD="$LD" CC="$CC"
    check_make_ok
 -  $sudo make install
@@ -73,8 +74,8 @@ diff -Naur wiringPi-2.44.orig/build wiringPi-2.44/build
  
  # echo
 diff -Naur wiringPi-2.44.orig/devLib/ds1302.c wiringPi-2.44/devLib/ds1302.c
---- wiringPi-2.44.orig/devLib/ds1302.c	2017-04-17 14:37:47.110058555 +0100
-+++ wiringPi-2.44/devLib/ds1302.c	2017-04-17 14:37:52.645961680 +0100
+--- wiringPi-2.44.orig/devLib/ds1302.c	2017-04-18 22:03:49.597058757 +0100
++++ wiringPi-2.44/devLib/ds1302.c	2017-04-18 22:01:01.559961945 +0100
 @@ -27,7 +27,7 @@
  #include <stdint.h>
  #include <stdarg.h>
@@ -85,8 +86,8 @@ diff -Naur wiringPi-2.44.orig/devLib/ds1302.c wiringPi-2.44/devLib/ds1302.c
  #include "ds1302.h"
  
 diff -Naur wiringPi-2.44.orig/devLib/gertboard.c wiringPi-2.44/devLib/gertboard.c
---- wiringPi-2.44.orig/devLib/gertboard.c	2017-04-17 14:37:47.110058555 +0100
-+++ wiringPi-2.44/devLib/gertboard.c	2017-04-17 14:37:52.645961680 +0100
+--- wiringPi-2.44.orig/devLib/gertboard.c	2017-04-18 22:03:49.597058757 +0100
++++ wiringPi-2.44/devLib/gertboard.c	2017-04-18 22:01:01.559961945 +0100
 @@ -38,8 +38,8 @@
  #include <sys/ioctl.h>
  #include <linux/spi/spidev.h>
@@ -99,8 +100,8 @@ diff -Naur wiringPi-2.44.orig/devLib/gertboard.c wiringPi-2.44/devLib/gertboard.
  #include "gertboard.h"
  
 diff -Naur wiringPi-2.44.orig/devLib/lcd128x64.c wiringPi-2.44/devLib/lcd128x64.c
---- wiringPi-2.44.orig/devLib/lcd128x64.c	2017-04-17 14:37:47.110058555 +0100
-+++ wiringPi-2.44/devLib/lcd128x64.c	2017-04-17 14:37:52.645961680 +0100
+--- wiringPi-2.44.orig/devLib/lcd128x64.c	2017-04-18 22:03:49.597058757 +0100
++++ wiringPi-2.44/devLib/lcd128x64.c	2017-04-18 22:01:01.563961876 +0100
 @@ -33,7 +33,7 @@
  #include <stdio.h>
  #include <stdlib.h>
@@ -111,8 +112,8 @@ diff -Naur wiringPi-2.44.orig/devLib/lcd128x64.c wiringPi-2.44/devLib/lcd128x64.
  #include "font.h"
  #include "lcd128x64.h"
 diff -Naur wiringPi-2.44.orig/devLib/lcd.c wiringPi-2.44/devLib/lcd.c
---- wiringPi-2.44.orig/devLib/lcd.c	2017-04-17 14:37:47.110058555 +0100
-+++ wiringPi-2.44/devLib/lcd.c	2017-04-17 14:37:52.645961680 +0100
+--- wiringPi-2.44.orig/devLib/lcd.c	2017-04-18 22:03:49.597058757 +0100
++++ wiringPi-2.44/devLib/lcd.c	2017-04-18 22:01:01.563961876 +0100
 @@ -28,7 +28,7 @@
  #include <stdlib.h>
  #include <stdarg.h>
@@ -123,8 +124,8 @@ diff -Naur wiringPi-2.44.orig/devLib/lcd.c wiringPi-2.44/devLib/lcd.c
  #include "lcd.h"
  
 diff -Naur wiringPi-2.44.orig/devLib/Makefile wiringPi-2.44/devLib/Makefile
---- wiringPi-2.44.orig/devLib/Makefile	2017-04-17 14:37:47.110058555 +0100
-+++ wiringPi-2.44/devLib/Makefile	2017-04-17 14:37:52.645961680 +0100
+--- wiringPi-2.44.orig/devLib/Makefile	2017-04-18 22:03:49.597058757 +0100
++++ wiringPi-2.44/devLib/Makefile	2017-04-18 22:01:01.563961876 +0100
 @@ -35,11 +35,11 @@
  DYNAMIC=libwiringPiDev.so.$(VERSION)
  
@@ -141,8 +142,8 @@ diff -Naur wiringPi-2.44.orig/devLib/Makefile wiringPi-2.44/devLib/Makefile
  LIBS    =
  
 diff -Naur wiringPi-2.44.orig/devLib/maxdetect.c wiringPi-2.44/devLib/maxdetect.c
---- wiringPi-2.44.orig/devLib/maxdetect.c	2017-04-17 14:37:47.110058555 +0100
-+++ wiringPi-2.44/devLib/maxdetect.c	2017-04-17 14:37:52.645961680 +0100
+--- wiringPi-2.44.orig/devLib/maxdetect.c	2017-04-18 22:03:49.597058757 +0100
++++ wiringPi-2.44/devLib/maxdetect.c	2017-04-18 22:01:01.563961876 +0100
 @@ -27,7 +27,7 @@
  //#include <stdlib.h>
  //#include <unistd.h>
@@ -153,8 +154,8 @@ diff -Naur wiringPi-2.44.orig/devLib/maxdetect.c wiringPi-2.44/devLib/maxdetect.
  #include "maxdetect.h"
  
 diff -Naur wiringPi-2.44.orig/devLib/piFace.c wiringPi-2.44/devLib/piFace.c
---- wiringPi-2.44.orig/devLib/piFace.c	2017-04-17 14:37:47.110058555 +0100
-+++ wiringPi-2.44/devLib/piFace.c	2017-04-17 14:37:52.645961680 +0100
+--- wiringPi-2.44.orig/devLib/piFace.c	2017-04-18 22:03:49.601058689 +0100
++++ wiringPi-2.44/devLib/piFace.c	2017-04-18 22:01:01.567961806 +0100
 @@ -28,8 +28,8 @@
  #include <stdio.h>
  #include <stdint.h>
@@ -167,8 +168,8 @@ diff -Naur wiringPi-2.44.orig/devLib/piFace.c wiringPi-2.44/devLib/piFace.c
  #include "piFace.h"
  
 diff -Naur wiringPi-2.44.orig/devLib/piGlow.c wiringPi-2.44/devLib/piGlow.c
---- wiringPi-2.44.orig/devLib/piGlow.c	2017-04-17 14:37:47.110058555 +0100
-+++ wiringPi-2.44/devLib/piGlow.c	2017-04-17 14:37:52.645961680 +0100
+--- wiringPi-2.44.orig/devLib/piGlow.c	2017-04-18 22:03:49.601058689 +0100
++++ wiringPi-2.44/devLib/piGlow.c	2017-04-18 22:01:01.567961806 +0100
 @@ -22,8 +22,8 @@
   ***********************************************************************
   */
@@ -181,8 +182,8 @@ diff -Naur wiringPi-2.44.orig/devLib/piGlow.c wiringPi-2.44/devLib/piGlow.c
  #include "piGlow.h"
  
 diff -Naur wiringPi-2.44.orig/devLib/piNes.c wiringPi-2.44/devLib/piNes.c
---- wiringPi-2.44.orig/devLib/piNes.c	2017-04-17 14:37:47.114058485 +0100
-+++ wiringPi-2.44/devLib/piNes.c	2017-04-17 14:37:52.645961680 +0100
+--- wiringPi-2.44.orig/devLib/piNes.c	2017-04-18 22:03:49.601058689 +0100
++++ wiringPi-2.44/devLib/piNes.c	2017-04-18 22:01:01.567961806 +0100
 @@ -22,7 +22,7 @@
   ***********************************************************************
   */
@@ -193,8 +194,8 @@ diff -Naur wiringPi-2.44.orig/devLib/piNes.c wiringPi-2.44/devLib/piNes.c
  #include "piNes.h"
  
 diff -Naur wiringPi-2.44.orig/devLib/scrollPhat.c wiringPi-2.44/devLib/scrollPhat.c
---- wiringPi-2.44.orig/devLib/scrollPhat.c	2017-04-17 14:37:47.114058485 +0100
-+++ wiringPi-2.44/devLib/scrollPhat.c	2017-04-17 14:37:52.645961680 +0100
+--- wiringPi-2.44.orig/devLib/scrollPhat.c	2017-04-18 22:03:49.601058689 +0100
++++ wiringPi-2.44/devLib/scrollPhat.c	2017-04-18 22:01:01.567961806 +0100
 @@ -28,7 +28,7 @@
  #include <string.h>
  #include <time.h>
@@ -205,8 +206,8 @@ diff -Naur wiringPi-2.44.orig/devLib/scrollPhat.c wiringPi-2.44/devLib/scrollPha
  #include "scrollPhatFont.h"
  #include "scrollPhat.h"
 diff -Naur wiringPi-2.44.orig/gpio/gpio.c wiringPi-2.44/gpio/gpio.c
---- wiringPi-2.44.orig/gpio/gpio.c	2017-04-17 14:37:47.118058415 +0100
-+++ wiringPi-2.44/gpio/gpio.c	2017-04-17 14:37:52.653961540 +0100
+--- wiringPi-2.44.orig/gpio/gpio.c	2017-04-18 22:03:49.605058620 +0100
++++ wiringPi-2.44/gpio/gpio.c	2017-04-18 22:01:01.571961737 +0100
 @@ -34,11 +34,11 @@
  #include <sys/types.h>
  #include <sys/stat.h>
@@ -224,28 +225,24 @@ diff -Naur wiringPi-2.44.orig/gpio/gpio.c wiringPi-2.44/gpio/gpio.c
  #include "../version.h"
  
 diff -Naur wiringPi-2.44.orig/gpio/Makefile wiringPi-2.44/gpio/Makefile
---- wiringPi-2.44.orig/gpio/Makefile	2017-04-17 14:37:47.118058415 +0100
-+++ wiringPi-2.44/gpio/Makefile	2017-04-17 14:38:22.377443576 +0100
-@@ -31,12 +31,12 @@
- endif
- 
+--- wiringPi-2.44.orig/gpio/Makefile	2017-04-18 22:03:49.605058620 +0100
++++ wiringPi-2.44/gpio/Makefile	2017-04-18 22:01:01.571961737 +0100
+@@ -33,10 +33,10 @@
  #DEBUG	= -g -O0
--DEBUG	= -O2
--CC	= gcc
-+##DEBUG	= -O2
-+##CC	= gcc
- INCLUDE	= -I$(DESTDIR)$(PREFIX)/include
--CFLAGS	= $(DEBUG) -Wall -Wextra $(INCLUDE) -Winline -pipe
-+##CFLAGS	= $(DEBUG) -Wall -Wextra $(INCLUDE) -Winline -pipe
+ DEBUG	= -O2
+ CC	= gcc
+-INCLUDE	= -I$(DESTDIR)$(PREFIX)/include
++INCLUDE	= -I../include
+ CFLAGS	= $(DEBUG) -Wall -Wextra $(INCLUDE) -Winline -pipe
  
 -LDFLAGS	= -L$(DESTDIR)$(PREFIX)/lib
-+#LDFLAGS	= -L
++LDFLAGS	= -L../wiringPi/
  LIBS    = -lwiringPi -lwiringPiDev -lpthread -lrt -lm -lcrypt
  
  # May not need to  alter anything below this line
 diff -Naur wiringPi-2.44.orig/gpio/Makefile.rej wiringPi-2.44/gpio/Makefile.rej
 --- wiringPi-2.44.orig/gpio/Makefile.rej	1970-01-01 01:00:00.000000000 +0100
-+++ wiringPi-2.44/gpio/Makefile.rej	2017-04-17 14:37:52.653961540 +0100
++++ wiringPi-2.44/gpio/Makefile.rej	2017-04-18 22:01:01.571961737 +0100
 @@ -0,0 +1,11 @@
 +--- gpio/Makefile	2015-03-08 16:59:33.000000000 +0000
 ++++ gpio/Makefile	2015-04-04 16:57:27.390130151 +0100
@@ -259,8 +256,8 @@ diff -Naur wiringPi-2.44.orig/gpio/Makefile.rej wiringPi-2.44/gpio/Makefile.rej
 + 
 + # May not need to  alter anything below this line
 diff -Naur wiringPi-2.44.orig/gpio/readall.c wiringPi-2.44/gpio/readall.c
---- wiringPi-2.44.orig/gpio/readall.c	2017-04-17 14:37:47.118058415 +0100
-+++ wiringPi-2.44/gpio/readall.c	2017-04-17 14:37:52.653961540 +0100
+--- wiringPi-2.44.orig/gpio/readall.c	2017-04-18 22:03:49.605058620 +0100
++++ wiringPi-2.44/gpio/readall.c	2017-04-18 22:01:01.575961668 +0100
 @@ -33,7 +33,7 @@
  #include <sys/types.h>
  #include <sys/stat.h>
@@ -271,8 +268,8 @@ diff -Naur wiringPi-2.44.orig/gpio/readall.c wiringPi-2.44/gpio/readall.c
  extern int wpMode ;
  
 diff -Naur wiringPi-2.44.orig/wiringPi/ads1115.c wiringPi-2.44/wiringPi/ads1115.c
---- wiringPi-2.44.orig/wiringPi/ads1115.c	2017-04-17 14:37:47.122058345 +0100
-+++ wiringPi-2.44/wiringPi/ads1115.c	2017-04-17 14:37:52.653961540 +0100
+--- wiringPi-2.44.orig/wiringPi/ads1115.c	2017-04-18 22:03:49.605058620 +0100
++++ wiringPi-2.44/wiringPi/ads1115.c	2017-04-18 22:01:01.575961668 +0100
 @@ -36,8 +36,8 @@
  #include <stdio.h>
  #include <stdint.h>
@@ -285,8 +282,8 @@ diff -Naur wiringPi-2.44.orig/wiringPi/ads1115.c wiringPi-2.44/wiringPi/ads1115.
  #include "ads1115.h"
  
 diff -Naur wiringPi-2.44.orig/wiringPi/Makefile wiringPi-2.44/wiringPi/Makefile
---- wiringPi-2.44.orig/wiringPi/Makefile	2017-04-17 14:37:47.122058345 +0100
-+++ wiringPi-2.44/wiringPi/Makefile	2017-04-17 14:37:52.653961540 +0100
+--- wiringPi-2.44.orig/wiringPi/Makefile	2017-04-18 22:03:49.605058620 +0100
++++ wiringPi-2.44/wiringPi/Makefile	2017-04-18 22:01:01.575961668 +0100
 @@ -35,11 +35,11 @@
  DYNAMIC=libwiringPi.so.$(VERSION)
  
@@ -304,7 +301,7 @@ diff -Naur wiringPi-2.44.orig/wiringPi/Makefile wiringPi-2.44/wiringPi/Makefile
  
 diff -Naur wiringPi-2.44.orig/wiringPi/Makefile.rej wiringPi-2.44/wiringPi/Makefile.rej
 --- wiringPi-2.44.orig/wiringPi/Makefile.rej	1970-01-01 01:00:00.000000000 +0100
-+++ wiringPi-2.44/wiringPi/Makefile.rej	2017-04-17 14:37:52.657961470 +0100
++++ wiringPi-2.44/wiringPi/Makefile.rej	2017-04-18 22:01:01.575961668 +0100
 @@ -0,0 +1,17 @@
 +--- wiringPi/Makefile	2015-03-08 16:59:33.000000000 +0000
 ++++ wiringPi/Makefile	2015-04-04 21:17:55.809459241 +0100
@@ -324,8 +321,8 @@ diff -Naur wiringPi-2.44.orig/wiringPi/Makefile.rej wiringPi-2.44/wiringPi/Makef
 + LIBS    =
 + 
 diff -Naur wiringPi-2.44.orig/wiringPi/max31855.c wiringPi-2.44/wiringPi/max31855.c
---- wiringPi-2.44.orig/wiringPi/max31855.c	2017-04-17 14:37:47.122058345 +0100
-+++ wiringPi-2.44/wiringPi/max31855.c	2017-04-17 14:37:52.657961470 +0100
+--- wiringPi-2.44.orig/wiringPi/max31855.c	2017-04-18 22:03:49.605058620 +0100
++++ wiringPi-2.44/wiringPi/max31855.c	2017-04-18 22:01:01.575961668 +0100
 @@ -25,8 +25,8 @@
  #include <byteswap.h>
  #include <stdint.h>
@@ -338,8 +335,8 @@ diff -Naur wiringPi-2.44.orig/wiringPi/max31855.c wiringPi-2.44/wiringPi/max3185
  #include "max31855.h"
  
 diff -Naur wiringPi-2.44.orig/wiringPi/max5322.c wiringPi-2.44/wiringPi/max5322.c
---- wiringPi-2.44.orig/wiringPi/max5322.c	2017-04-17 14:37:47.122058345 +0100
-+++ wiringPi-2.44/wiringPi/max5322.c	2017-04-17 14:37:52.657961470 +0100
+--- wiringPi-2.44.orig/wiringPi/max5322.c	2017-04-18 22:03:49.609058551 +0100
++++ wiringPi-2.44/wiringPi/max5322.c	2017-04-18 22:01:01.575961668 +0100
 @@ -22,8 +22,8 @@
   ***********************************************************************
   */
@@ -352,8 +349,8 @@ diff -Naur wiringPi-2.44.orig/wiringPi/max5322.c wiringPi-2.44/wiringPi/max5322.
  #include "max5322.h"
  
 diff -Naur wiringPi-2.44.orig/wiringPi/mcp3002.c wiringPi-2.44/wiringPi/mcp3002.c
---- wiringPi-2.44.orig/wiringPi/mcp3002.c	2017-04-17 14:37:47.122058345 +0100
-+++ wiringPi-2.44/wiringPi/mcp3002.c	2017-04-17 14:37:52.657961470 +0100
+--- wiringPi-2.44.orig/wiringPi/mcp3002.c	2017-04-18 22:03:49.609058551 +0100
++++ wiringPi-2.44/wiringPi/mcp3002.c	2017-04-18 22:01:01.575961668 +0100
 @@ -22,8 +22,8 @@
   ***********************************************************************
   */
@@ -366,8 +363,8 @@ diff -Naur wiringPi-2.44.orig/wiringPi/mcp3002.c wiringPi-2.44/wiringPi/mcp3002.
  #include "mcp3002.h"
  
 diff -Naur wiringPi-2.44.orig/wiringPi/mcp3004.c wiringPi-2.44/wiringPi/mcp3004.c
---- wiringPi-2.44.orig/wiringPi/mcp3004.c	2017-04-17 14:37:47.122058345 +0100
-+++ wiringPi-2.44/wiringPi/mcp3004.c	2017-04-17 14:37:52.657961470 +0100
+--- wiringPi-2.44.orig/wiringPi/mcp3004.c	2017-04-18 22:03:49.609058551 +0100
++++ wiringPi-2.44/wiringPi/mcp3004.c	2017-04-18 22:01:01.575961668 +0100
 @@ -24,8 +24,8 @@
   ***********************************************************************
   */
@@ -380,8 +377,8 @@ diff -Naur wiringPi-2.44.orig/wiringPi/mcp3004.c wiringPi-2.44/wiringPi/mcp3004.
  #include "mcp3004.h"
  
 diff -Naur wiringPi-2.44.orig/wiringPi/mcp3422.c wiringPi-2.44/wiringPi/mcp3422.c
---- wiringPi-2.44.orig/wiringPi/mcp3422.c	2017-04-17 14:37:47.122058345 +0100
-+++ wiringPi-2.44/wiringPi/mcp3422.c	2017-04-17 14:37:52.657961470 +0100
+--- wiringPi-2.44.orig/wiringPi/mcp3422.c	2017-04-18 22:03:49.609058551 +0100
++++ wiringPi-2.44/wiringPi/mcp3422.c	2017-04-18 22:01:01.575961668 +0100
 @@ -31,8 +31,8 @@
  #include <fcntl.h>
  #include <sys/ioctl.h>
@@ -394,8 +391,8 @@ diff -Naur wiringPi-2.44.orig/wiringPi/mcp3422.c wiringPi-2.44/wiringPi/mcp3422.
  #include "mcp3422.h"
  
 diff -Naur wiringPi-2.44.orig/wiringPi/mcp4802.c wiringPi-2.44/wiringPi/mcp4802.c
---- wiringPi-2.44.orig/wiringPi/mcp4802.c	2017-04-17 14:37:47.122058345 +0100
-+++ wiringPi-2.44/wiringPi/mcp4802.c	2017-04-17 14:37:52.657961470 +0100
+--- wiringPi-2.44.orig/wiringPi/mcp4802.c	2017-04-18 22:03:49.609058551 +0100
++++ wiringPi-2.44/wiringPi/mcp4802.c	2017-04-18 22:01:01.575961668 +0100
 @@ -22,8 +22,8 @@
   ***********************************************************************
   */
@@ -408,8 +405,8 @@ diff -Naur wiringPi-2.44.orig/wiringPi/mcp4802.c wiringPi-2.44/wiringPi/mcp4802.
  #include "mcp4802.h"
  
 diff -Naur wiringPi-2.44.orig/wiringPi/pseudoPins.c wiringPi-2.44/wiringPi/pseudoPins.c
---- wiringPi-2.44.orig/wiringPi/pseudoPins.c	2017-04-17 14:37:47.122058345 +0100
-+++ wiringPi-2.44/wiringPi/pseudoPins.c	2017-04-17 14:37:52.657961470 +0100
+--- wiringPi-2.44.orig/wiringPi/pseudoPins.c	2017-04-18 22:03:49.609058551 +0100
++++ wiringPi-2.44/wiringPi/pseudoPins.c	2017-04-18 22:01:01.575961668 +0100
 @@ -41,7 +41,7 @@
  #include <sys/stat.h>
  #include <fcntl.h>
@@ -420,8 +417,8 @@ diff -Naur wiringPi-2.44.orig/wiringPi/pseudoPins.c wiringPi-2.44/wiringPi/pseud
  #include "pseudoPins.h"
  
 diff -Naur wiringPi-2.44.orig/wiringPi/sn3218.c wiringPi-2.44/wiringPi/sn3218.c
---- wiringPi-2.44.orig/wiringPi/sn3218.c	2017-04-17 14:37:47.122058345 +0100
-+++ wiringPi-2.44/wiringPi/sn3218.c	2017-04-17 14:37:52.657961470 +0100
+--- wiringPi-2.44.orig/wiringPi/sn3218.c	2017-04-18 22:03:49.609058551 +0100
++++ wiringPi-2.44/wiringPi/sn3218.c	2017-04-18 22:01:01.575961668 +0100
 @@ -22,8 +22,8 @@
   ***********************************************************************
   */
@@ -434,8 +431,8 @@ diff -Naur wiringPi-2.44.orig/wiringPi/sn3218.c wiringPi-2.44/wiringPi/sn3218.c
  #include "sn3218.h"
  
 diff -Naur wiringPi-2.44.orig/wiringPi/wpiExtensions.c wiringPi-2.44/wiringPi/wpiExtensions.c
---- wiringPi-2.44.orig/wiringPi/wpiExtensions.c	2017-04-17 14:37:47.122058345 +0100
-+++ wiringPi-2.44/wiringPi/wpiExtensions.c	2017-04-17 14:37:52.657961470 +0100
+--- wiringPi-2.44.orig/wiringPi/wpiExtensions.c	2017-04-18 22:03:49.609058551 +0100
++++ wiringPi-2.44/wiringPi/wpiExtensions.c	2017-04-18 22:01:01.575961668 +0100
 @@ -36,7 +36,7 @@
  #include <sys/types.h>
  #include <fcntl.h>
@@ -446,8 +443,8 @@ diff -Naur wiringPi-2.44.orig/wiringPi/wpiExtensions.c wiringPi-2.44/wiringPi/wp
  #include "mcp23008.h"
  #include "mcp23016.h"
 diff -Naur wiringPi-2.44.orig/wiringPiD/runRemote.c wiringPi-2.44/wiringPiD/runRemote.c
---- wiringPi-2.44.orig/wiringPiD/runRemote.c	2017-04-17 14:37:47.122058345 +0100
-+++ wiringPi-2.44/wiringPiD/runRemote.c	2017-04-17 14:37:52.657961470 +0100
+--- wiringPi-2.44.orig/wiringPiD/runRemote.c	2017-04-18 22:03:49.609058551 +0100
++++ wiringPi-2.44/wiringPiD/runRemote.c	2017-04-18 22:01:01.579961598 +0100
 @@ -31,8 +31,8 @@
  #include <errno.h>
  //#include <stdarg.h>
@@ -460,8 +457,8 @@ diff -Naur wiringPi-2.44.orig/wiringPiD/runRemote.c wiringPi-2.44/wiringPiD/runR
  #include "drcNetCmd.h"
  #include "network.h"
 diff -Naur wiringPi-2.44.orig/wiringPiD/wiringpid.c wiringPi-2.44/wiringPiD/wiringpid.c
---- wiringPi-2.44.orig/wiringPiD/wiringpid.c	2017-04-17 14:37:47.122058345 +0100
-+++ wiringPi-2.44/wiringPiD/wiringpid.c	2017-04-17 14:37:52.657961470 +0100
+--- wiringPi-2.44.orig/wiringPiD/wiringpid.c	2017-04-18 22:03:49.609058551 +0100
++++ wiringPi-2.44/wiringPiD/wiringpid.c	2017-04-18 22:01:01.579961598 +0100
 @@ -31,8 +31,8 @@
  #include <signal.h>
  #include <errno.h>
