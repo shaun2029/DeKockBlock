@@ -31,7 +31,12 @@ SSHPASSTIME=600         # Time in seconds to allow sshd password authenticated s
 
 # GPIO Pin 9 has pullup resistors
 # Set pin9 to input mode
-gpio mode 9 in
+# gpio mode 9 in
+
+# Use GIO 28 to provide a voltage for GPIO 29 to sense.
+gpio mode 28 out
+gpio write 28 1
+gpio mode 29 in
 
 # Turn on green light heart beat to indicate running state
 bash.real -c "sleep $theartbeat; echo heartbeat >/sys/class/leds/led0/trigger" &
@@ -43,9 +48,9 @@ sed -i -- 's/PasswordAuthentication yes/PasswordAuthentication no/g' \
 while [ 1 = 1 ]
 do
     # Wait for key press
-    gpio wfi 9 falling
+    gpio wfi 29 falling
 
-    while [ `gpio read 9` = 0 ]
+    while [ `gpio read 29` = 0 ]
     do
         tpressed=$[tpressed + 1]
 

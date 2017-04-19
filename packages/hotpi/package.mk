@@ -60,6 +60,7 @@ makeinstall_target() {
 post_install() {
   enable_service routing.service
   enable_service dnsmasq.service
+  enable_service dnsmasq2.service
   enable_service hotspot.service
   enable_service adaway.service
   enable_service switch-monitor.service

@@ -3,6 +3,8 @@
 Description=Configure routing
 Requires=network-online.service
 After=network-online.service
+ConditionPathExists=/storage/.config/routing.conf
+
 
 [Service]
 Type=idle
