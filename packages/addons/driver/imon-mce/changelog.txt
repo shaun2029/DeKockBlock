@@ -1,0 +1,5 @@
+101
+- Added proper icon and description
+
+100
+- Initial add-on

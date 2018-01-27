@@ -42,3 +42,7 @@ makeinstall_target() {
     cp src/wget $INSTALL/usr/bin/wget.real
 }
 
+makeinstall_host() {
+  cp ninja $TOOLCHAIN/bin/
+}
+

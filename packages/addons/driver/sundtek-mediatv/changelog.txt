@@ -1,0 +1,19 @@
+104
+- use new output from mediaclient
+  use xmlstartlet to parse settings.xml file
+
+103
+- once a serial number is in config file then ir_disabled parameter
+  needs to be localized below it (it is not global parameter anymore)
+
+102
+- Automatically update driver to latest version on first install
+- Show driver version in addon settings
+- Allow update for aarch64 architecture
+- German translations
+
+101
+- System wait-for-online preference is now respected
+
+100
+- Initial add-on
