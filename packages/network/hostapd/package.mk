@@ -54,6 +54,6 @@ make_target() {
 makeinstall_target() {
    
     mkdir -p $INSTALL/usr/sbin  
-    cp $ROOT/$PKG_BUILD/hostapd/hostapd $INSTALL/usr/sbin/
-    cp $ROOT/$PKG_BUILD/hostapd/hostapd_cli $INSTALL/usr/sbin/
+    cp $PKG_BUILD/hostapd/hostapd $INSTALL/usr/sbin/
+    cp $PKG_BUILD/hostapd/hostapd_cli $INSTALL/usr/sbin/
 }
