@@ -5,7 +5,7 @@
 tmpdir="/tmp/adaway-linux/"
 hostsorig="/storage/.config/hosts.conf"
 srclst="/storage/.config/adawaysources.lst"
-hostsfile="/var/cache/hosts"
+hostsfile="/run/connman/hosts"
 
 #
 #show help
